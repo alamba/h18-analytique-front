@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/squidsquads.css"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SquidSquAds</title>
+</head>
+
+<body>
+
+<!-- Navbar Start -->
+<ul id="dropdown-cp" class="dropdown-content">
+    <li><a href="pub_creation.html">Créer une campagne</a></li>
+    <li class="divider"></li>
+    <li><a href="pub_liste.html">Voir mes campagnes</a></li>
+</ul>
+<ul id="dropdown-cp-mb" class="dropdown-content">
+    <li><a href="pub_creation.html">Créer une campagne</a></li>
+    <li class="divider"></li>
+    <li><a href="pub_liste.html">Voir mes campagnes</a></li>
+</ul>
+<ul id="dropdown-pu" class="dropdown-content">
+    <li><a href="#!">Créer un profil</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Voir mes profils</a></li>
+</ul>
+<ul id="dropdown-pu-mb" class="dropdown-content">
+    <li><a href="#!">Créer un profil</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Voir mes profils</a></li>
+</ul>
+<ul id="dropdown-us" class="dropdown-content">
+    <li><a href="#!">Paramètres</a></li>
+    <li class="divider"></li>
+    <li><a href="index.html">Se déconnecter</a></li>
+</ul>
+<ul id="dropdown-us-mb" class="dropdown-content">
+    <li><a href="#!">Paramètres</a></li>
+    <li class="divider"></li>
+    <li><a href="index.html">Se déconnecter</a></li>
+</ul>
+
+<nav role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="index.html" class="brand-logo">SquidSquAds</a>
+        <ul class="right hide-on-med-and-down">
+            <li class="active"><a href="pub_accueil.html">Accueil</a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-cp">Campagnes publicitaires<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-pu">Profils utilisateurs<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-us">adminpub@nike.com<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+            <li class="active"><a href="pub_accueil.html">Accueil</a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-cp-mb">Campagnes publicitaires<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-pu-mb">Profils utilisateurs<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-us-mb">adminpub@nike.com<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container section pad-top-5">
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <a href="pub_creation.html" id="create-campagne-button" class="btn-large light-blue waves-effect waves-light w100"><i class="material-icons left">add</i>Créer une campagne publicitaire</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <a href="pub_liste.html" id="list-campagne-button" class="btn-large light-blue waves-effect waves-light w100"><i class="material-icons left">toc</i>Voir mes campagnes publicitaires</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <a href="#" id="create-profile-button" class="btn-large light-blue waves-effect waves-light w100"><i class="material-icons left">add</i>Créer un profil utilisateur</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <a href="#" id="list-profile-button" class="btn-large light-blue waves-effect waves-light w100"><i class="material-icons left">toc</i>Voir mes profils utilisateurs</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/squidsquads.js"></script>
+</body>
+</html>
