@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="squidApp">
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
@@ -9,65 +9,52 @@
 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SquidSquAds</title>
+    <title>Création d'une campagne</title>
+
+    <style>
+        div[class^='publicity'], div[class*=' publicity'] {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #cccccc;
+            background-color: #eeeeee;
+            color: #aaaaaa;
+        }
+
+        .publicity-horizontal {
+            margin: 20px auto;
+            width: 728px;
+            height: 90px;
+        }
+
+        .publicity-vertical {
+            width: 120px;
+            height: 600px;
+        }
+
+        .publicity-mobile {
+            width: 250px;
+            height: 250px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .publicity-horizontal {
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- Navbar Start -->
-<ul id="dropdown-cp" class="dropdown-content">
-    <li class="active"><a href="pub_creation.html">Créer une campagne</a></li>
-    <li class="divider"></li>
-    <li><a href="pub_liste.html">Voir mes campagnes</a></li>
-</ul>
-<ul id="dropdown-cp-mb" class="dropdown-content">
-    <li class="active"><a href="pub_creation.html">Créer une campagne</a></li>
-    <li class="divider"></li>
-    <li><a href="pub_liste.html">Voir mes campagnes</a></li>
-</ul>
-<ul id="dropdown-pu" class="dropdown-content">
-    <li><a href="#!">Créer un profil</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Voir mes profils</a></li>
-</ul>
-<ul id="dropdown-pu-mb" class="dropdown-content">
-    <li><a href="#!">Créer un profil</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Voir mes profils</a></li>
-</ul>
-<ul id="dropdown-us" class="dropdown-content">
-    <li><a href="#!">Paramètres</a></li>
-    <li class="divider"></li>
-    <li><a href="index.html">Se déconnecter</a></li>
-</ul>
-<ul id="dropdown-us-mb" class="dropdown-content">
-    <li><a href="#!">Paramètres</a></li>
-    <li class="divider"></li>
-    <li><a href="index.html">Se déconnecter</a></li>
-</ul>
+<nav role="navigation" nav-admin-pub active-link="campagne"></nav>
 
-<nav role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" href="index.html" class="brand-logo">SquidSquAds</a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="pub_accueil.html">Accueil</a></li>
-            <li class="active"><a class="dropdown-button" href="#!" data-activates="dropdown-cp">Campagnes publicitaires<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown-pu">Profils utilisateurs<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown-us">adminpub@nike.com<i class="material-icons right">arrow_drop_down</i></a></li>
-        </ul>
+<div class="publicity-horizontal">
+    <h4 class="light hide-on-small-only">Aperçu de votre bannière horizontale</h4>
+    <h6 class="light hide-on-med-and-up">Aperçu horizontal non disponible sur mobile</h6>
+</div>
 
-        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
-            <li><a href="pub_accueil.html">Accueil</a></li>
-            <li class="active"><a class="dropdown-button" href="#!" data-activates="dropdown-cp-mb">Campagnes publicitaires<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown-pu-mb">Profils utilisateurs<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown-us-mb">adminpub@nike.com<i class="material-icons right">arrow_drop_down</i></a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-</nav>
-<!-- Navbar End -->
-
-<div class="container container-pad-top">
+<div class="container">
     <div class="row">
         <div class="col s12 m6 offset-m3">
             <div class="card z-depth-2">
@@ -139,6 +126,7 @@
 </div>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/squidsquads.js"></script>
 </body>

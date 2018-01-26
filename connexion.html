@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="squidApp">
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
@@ -9,44 +9,30 @@
 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SquidSquAds</title>
+    <title>Connexion</title>
 </head>
 
 <body>
 
-<nav role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" href="index.html" class="brand-logo">SquidSquAds</a>
-        <ul class="right hide-on-med-and-down">
-            <li class="active"><a href="connexion.html">S'identifier</a></li>
-            <li><a href="enregistrement.html">Créer un compte</a></li>
-        </ul>
-
-        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
-            <li class="active"><a href="connexion.html">S'identifier</a></li>
-            <li><a href="enregistrement.html">Créer un compte</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-</nav>
+<nav role="navigation" nav-not-connected active-link="connexion"></nav>
 
 <div class="container container-pad-top">
     <div class="row">
         <div class="col s12 m6 offset-m3 l4 offset-l4">
-            <div class="card z-depth-2">
-                <div class="card-content">
+            <div class="card z-depth-3">
+                <div class="card-content no-pad-bot">
                     <span class="card-title">Connexion</span>
                     <div class="row no-marg-bot">
                         <form class="col s12">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="email" type="email" class="validate">
+                                    <input id="email" type="email">
                                     <label for="email">Courriel</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="password" type="password" class="validate">
+                                    <input id="password" type="password">
                                     <label for="password">Mot de passe</label>
                                 </div>
                             </div>
@@ -54,7 +40,7 @@
                     </div>
                 </div>
                 <div class="card-action right-align">
-                    <a class="btn waves-effect waves-light" href="pub_accueil.html">Connexion</a>
+                    <a class="btn waves-effect waves-light" href="publicite_accueil.html">Connexion</a>
                 </div>
             </div>
         </div>
@@ -62,6 +48,7 @@
 </div>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/squidsquads.js"></script>
 </body>

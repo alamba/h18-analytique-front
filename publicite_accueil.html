@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="squidApp">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/squidsquads.css"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Accueil</title>
+
+    <style>
+        .card .card-image img {
+            display: inline !important;
+            margin: 24px;
+            width: 200px;
+        }
+
+        .card:hover {
+            background-color: #03a9f4;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .card:hover > .card-image img {
+            -webkit-transition: all 100ms ease-in;
+            -moz-transition: all 100ms ease-in;
+            -o-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+        }
+
+        .card:hover > .card-image img {
+            margin-bottom: 4px;
+            width: 220px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav role="navigation" nav-admin-pub active-link="accueil"></nav>
+
+<div class="container section container-pad-top">
+    <div class="row">
+        <div class="col s12 m6">
+            <a href="campagne_creation.html" class="no-style">
+                <div class="card z-depth-3">
+                    <div class="card-image center-align">
+                        <img src="img/campaign.svg">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Créer une campagne publicitaire</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col s12 m6">
+            <a href="campagne_gestion.html" class="no-style">
+                <div class="card z-depth-3">
+                    <div class="card-image center-align">
+                        <img src="img/view-campaigns.svg">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Gérer mes campagnes publicitaires</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <a href="#" class="no-style">
+                <div class="card z-depth-3">
+                    <div class="card-image center-align">
+                        <img src="img/profile.svg">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Créer un profil utilisateur</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col s12 m6">
+            <a href="#" class="no-style">
+                <div class="card z-depth-3">
+                    <div class="card-image center-align">
+                        <img src="img/view-profiles.svg">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Gérer mes profils utilisateurs</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/squidsquads.js"></script>
+</body>
+</html>
