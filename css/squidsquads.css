@@ -1,6 +1,16 @@
-
 body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     background-color: #fefefe;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
 }
 
 .brand-logo, .squid-font {
@@ -50,4 +60,14 @@ a.no-style:link, a.no-style:visited {
     text-decoration: inherit;
     color: inherit;
     cursor: auto;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.shadow-clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
 }

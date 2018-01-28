@@ -1,13 +1,15 @@
-<div class="nav-wrapper container">
-    <a id="logo-container" href="index.html" class="brand-logo"><img src="img/squid-logo.svg"/>SquidSquAds</a>
-    <ul class="right hide-on-med-and-down">
-        <li ng-class="{'active' : activeLink == 'connexion'}"><a href="connexion.html">S'identifier</a></li>
-        <li ng-class="{'active' : activeLink == 'compte_creation'}"><a href="compte_creation.html">Créer un compte</a></li>
-    </ul>
+<nav role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="index.html" class="brand-logo"><img src="img/squid-logo.svg"/>SquidSquAds</a>
+        <ul class="right hide-on-med-and-down">
+            <li ng-class="{'active' : activeLink == 'connexion'}"><a href="connexion.html">S'identifier</a></li>
+            <li ng-class="{'active' : activeLink == 'compte_creation'}"><a href="compte_creation.html">Créer un compte</a></li>
+        </ul>
 
-    <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
-        <li ng-class="{'active' : activeLink == 'connexion'}"><a href="connexion.html">S'identifier</a></li>
-        <li ng-class="{'active' : activeLink == 'compte_creation'}"><a href="compte_creation.html">Créer un compte</a></li>
-    </ul>
-    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-</div>
+        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+            <li ng-class="{'active' : activeLink == 'connexion'}"><a href="connexion.html">S'identifier</a></li>
+            <li ng-class="{'active' : activeLink == 'compte_creation'}"><a href="compte_creation.html">Créer un compte</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</nav>

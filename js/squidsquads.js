@@ -1,6 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+// AngularJS CONFIG
+//////////////////////////////////////////////////////////////////////////
 var app = angular.module('squidApp', []);
 
-// Templates
+//////////////////////////////////////////////////////////////////////////
+// DIRECTIVES / TEMPLATES
+//////////////////////////////////////////////////////////////////////////
 app.directive('navNotConnected', function () {
     return {
         templateUrl: './templates/nav-not-connected-template.html',
@@ -21,31 +26,50 @@ app.directive('navNotConnected', function () {
             prepMaterializeCss();
         }
     };
+}).directive('footerTemplate', function () {
+    return {
+        templateUrl: './templates/footer-template.html'
+    };
+}).directive('campaignTemplate', function () {
+    return {
+        templateUrl: './templates/campaign-template.html',
+        scope: {
+            campagne: '=campagneInfo'
+        },
+        link: function () {
+            prepMaterializeCss();
+        }
+    };
 });
 
-
+//////////////////////////////////////////////////////////////////////////
+// jQuery / GLOBAL FUNCTIONS
+//////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     prepMaterializeCss();
 });
 
 function prepMaterializeCss() {
 
-    // Dropdown material styling
+    // re-bind the generated select
     $('select').material_select();
 
-    // Sidebar on mobile
-    $(".button-collapse").sideNav();
+    // sidebar on mobile
+    $('.button-collapse').sideNav();
 
-    // Dropdown activation
-    $(".dropdown-button").dropdown({belowOrigin: true});
+    // dropdown activation
+    $('.dropdown-button').dropdown({belowOrigin: true});
 
-    // Pick a date formatting
-    $('.datepicker').pickadate({
-        format: 'yyyy/mm/dd',
+    // collapsible
+    $('.collapsible').collapsible();
+
+    // pick a date formatting
+    $.extend($.fn.pickadate.defaults, {
+        format: 'yyyy-mm-dd',
         monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
         weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
         today: 'Aujourd\'hui',
         clear: 'Effacer',
-        formatSubmit: 'yyyy/mm/dd'
+        formatSubmit: 'yyyy-mm-dd'
     });
 }

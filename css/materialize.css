@@ -2194,6 +2194,7 @@ ul.staggered-list li {
     text-align: center; } }
 
 .page-footer {
+  margin-top: 20px;
   padding-top: 20px;
   color: #fff;
   background-color: #ED4C5C; }
@@ -4836,7 +4837,7 @@ form p:last-child {
   [type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
     content: '';
     position: absolute;
-    top: 0;
+    top: -10px;
     left: 0;
     width: 18px;
     height: 18px;
@@ -4859,7 +4860,7 @@ form p:last-child {
     background-color: rgba(0, 0, 0, 0.1); }
 
 [type="checkbox"]:checked + label:before {
-  top: -4px;
+  top: -15px;
   left: -5px;
   width: 12px;
   height: 22px;

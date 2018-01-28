@@ -38,7 +38,7 @@ form p:last-child {
   &:not(.filled-in) + label:after {
     content: '';
     position: absolute;
-    top: 0;
+    top: -10px;
     left: 0;
     width: 18px;
     height: 18px;
@@ -71,7 +71,7 @@ form p:last-child {
 
 [type="checkbox"]:checked {
   + label:before {
-    top: -4px;
+    top: -15px;
     left: -5px;
     width: 12px;
     height: 22px;
