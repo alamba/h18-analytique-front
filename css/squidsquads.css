@@ -82,3 +82,7 @@ a.no-style:link, a.no-style:visited {
     display: flex;
     justify-content: space-around;
 }
+
+.table.bordered.no-border-bottom-last > thead > tr, table.bordered > tbody > tr:last-child {
+    border-bottom: none;
+}
