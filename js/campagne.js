@@ -7,6 +7,8 @@ app.controller('CampagneCreationController', ['$scope', function ($scope) {
     $scope.banner = {};
 
 }]).controller('CampagneGestionController', ['$scope', function ($scope) {
+
+    // SCOPE VARIABLES
     $scope.selectedCampagneId = null;
     $scope.selectedCampagne = null;
     $scope.campagnes = [
@@ -88,6 +90,7 @@ app.controller('CampagneCreationController', ['$scope', function ($scope) {
         }
     ];
 
+    // SCOPE METHODS
     $scope.updateShownCampagne = function () {
 
         if (!$scope.selectedCampagneId)

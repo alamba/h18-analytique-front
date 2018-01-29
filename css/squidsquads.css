@@ -44,12 +44,18 @@ main {
     padding-top: 3.5rem;
 }
 
-.no-pad-bot {
+.no-padding-bot {
     padding-bottom: 0 !important;
 }
 
-.no-marg-bot {
+.no-margin-bot {
     margin-bottom: 0 !important;
+}
+
+@media only screen and (max-width: 992px) {
+    .margin-top-on-med-and-down {
+        margin-top: 20px;
+    }
 }
 
 .dark-grey-label {
@@ -70,4 +76,9 @@ a.no-style:link, a.no-style:visited {
     clear: both;
     content: " ";
     display: block;
+}
+
+.flex-space-around {
+    display: flex;
+    justify-content: space-around;
 }

@@ -26,6 +26,16 @@ app.directive('navNotConnected', function () {
             prepMaterializeCss();
         }
     };
+}).directive('navAdminWeb', function () {
+    return {
+        templateUrl: './templates/nav-admin-web-template.html',
+        scope: {
+            activeLink: '@'
+        },
+        link: function () {
+            prepMaterializeCss();
+        }
+    };
 }).directive('footerTemplate', function () {
     return {
         templateUrl: './templates/footer-template.html'
