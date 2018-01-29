@@ -1,0 +1,31 @@
+<nav role="navigation">
+
+    <ul id="dropdown-us" class="dropdown-content">
+        <li><a href="parametre_adminweb.html">Paramètres</a></li>
+        <li class="divider"></li>
+        <li><a href="index.html">Se déconnecter</a></li>
+    </ul>
+    <ul id="dropdown-us-mb" class="dropdown-content">
+        <li><a href="parametre_adminweb.html">Paramètres</a></li>
+        <li class="divider"></li>
+        <li><a href="index.html">Se déconnecter</a></li>
+    </ul>
+
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="index.html" class="brand-logo"><img src="img/squid-logo.svg"/>SquidSquAds</a>
+        <ul class="right hide-on-med-and-down">
+            <li ng-class="{'active' : activeLink == 'accueil'}"><a href="accueil_adminweb.html">Accueil</a></li>
+            <li ng-class="{'active' : activeLink == 'redevances'}"><a href="redevances.html">Redevances</a></li>
+            <li ng-class="{'active' : activeLink == 'instructions'}"><a href="instructions.html">Instructions</a></li>
+            <li ng-class="{'active' : activeLink == 'parametre'}"><a class="dropdown-button" href="#!" data-activates="dropdown-us">adminweb@banque1.com<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+            <li ng-class="{'active' : activeLink == 'accueil'}"><a href="accueil_adminweb.html">Accueil</a></li>
+            <li ng-class="{'active' : activeLink == 'redevances'}"><a href="redevances.html">Redevances</a></li>
+            <li ng-class="{'active' : activeLink == 'instructions'}"><a href="instructions.html">Instructions</a></li>
+            <li ng-class="{'active' : activeLink == 'parametre'}"><a class="dropdown-button" href="#!" data-activates="dropdown-us-mb">adminweb@banque1.com<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</nav>

@@ -1,0 +1,49 @@
+.chart-wrapper {
+    padding: 20px;
+}
+
+.chart-header {
+    min-height: 45px;
+}
+
+.chart-header .input-field {
+    margin-top: 0;
+}
+
+.chart-title {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #FFFFFF;
+}
+
+.chart-select span.caret {
+    color: #FFFFFF;
+}
+
+.chart-select input.select-dropdown {
+    margin-bottom: 0;
+    border-bottom: none;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.chart-canvas {
+    position: relative;
+}
+
+.chart-canvas > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -20%);
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+@media only screen and (max-width: 600px) {
+    .chart-canvas > span {
+        font-size: 1rem;
+        transform: translate(-50%, 10%);
+    }
+}

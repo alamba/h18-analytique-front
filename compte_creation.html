@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="squidApp">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/squidsquads.css"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Création d'un compte</title>
+
+    <style>
+        .card .card-content p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<header nav-not-connected active-link="compte_creation"></header>
+
+<main>
+    <div class="container container-pad-top">
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card z-depth-3">
+                    <div class="card-content no-padding-bot">
+                        <span class="card-title">Création d'un compte</span>
+                        <div class="row no-margin-bot">
+                            <form class="col s12">
+                                <p>Quel est votre objectif ?</p>
+                                <p>
+                                    <input class="with-gap" name="group1" type="radio" id="adminpub" checked="checked"/>
+                                    <label for="adminpub" class="dark-grey-label">Créer des campagnes publicitaires pour ma compagnie</label>
+                                </p>
+                                <p>
+                                    <input class="with-gap" name="group1" type="radio" id="adminweb"/>
+                                    <label for="adminweb" class="dark-grey-label">Présenter des publicités sur mon site web</label>
+                                </p>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="email" type="email" class="validate">
+                                        <label for="email">Courriel</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="domain" type="url" class="validate">
+                                        <label for="domain">Domaine de site web</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bank" type="number" class="validate">
+                                        <label for="bank">Numéro de compte de banque</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="password" type="password" class="validate">
+                                        <label for="password">Mot de passe</label>
+                                    </div>
+                                </div>
+                                <div class="row no-margin-bot">
+                                    <div class="input-field col s12">
+                                        <input id="confirmpassword" type="password" class="validate">
+                                        <label for="confirmpassword">Confirmation du mot de passe</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-action right-align">
+                        <a class="btn waves-effect waves-light" href="#">Créer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="page-footer" footer-template></footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/squidsquads.js"></script>
+</body>
+</html>

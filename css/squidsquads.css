@@ -1,0 +1,88 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #fefefe;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.brand-logo, .squid-font {
+    font-family: 'Amatic SC', cursive;
+    font-weight: 700;
+}
+
+.brand-logo {
+    font-size: 2.8rem;
+    display: flex !important;
+    align-items: center;
+}
+
+.brand-logo img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.absolute-center {
+    margin: 0;
+    padding: 0;
+    float: left;
+    position: absolute;
+    top: 30%;
+    transform: translateY(-30%) translateX(-50%);
+    left: 50%;
+}
+
+.container-pad-top {
+    padding-top: 3.5rem;
+}
+
+.no-padding-bot {
+    padding-bottom: 0 !important;
+}
+
+.no-margin-bot {
+    margin-bottom: 0 !important;
+}
+
+@media only screen and (max-width: 992px) {
+    .margin-top-on-med-and-down {
+        margin-top: 20px;
+    }
+}
+
+.dark-grey-label {
+    color: #000000de !important;
+}
+
+a.no-style:link, a.no-style:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.shadow-clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+}
+
+.flex-space-around {
+    display: flex;
+    justify-content: space-around;
+}
+
+.table.bordered.no-border-bottom-last > thead > tr, table.bordered > tbody > tr:last-child {
+    border-bottom: none;
+}

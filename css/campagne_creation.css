@@ -1,0 +1,32 @@
+div[class^='publicity'], div[class*=' publicity'] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cccccc;
+    background-color: #eeeeee;
+    color: #aaaaaa;
+}
+
+.publicity-horizontal {
+    margin: 20px auto 0;
+    width: 728px;
+    height: 90px;
+}
+
+.publicity-vertical {
+    margin: auto;
+    width: 120px;
+    height: 600px;
+}
+
+.publicity-mobile {
+    margin: 0 auto 20px;
+    width: 250px;
+    height: 250px;
+}
+
+@media only screen and (max-width: 768px) {
+    .publicity-horizontal {
+        max-width: 90%;
+    }
+}
