@@ -17,7 +17,7 @@
 <header nav-not-connected active-link="connexion"></header>
 
 <main>
-    <div class="container container-pad-top">
+    <div class="container container-pad-top" ng-controller="ConnexionController">
         <div class="row">
             <div class="col s12 m6 offset-m3 l4 offset-l4">
                 <div class="card z-depth-3">
@@ -27,13 +27,13 @@
                             <form class="col s12">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="email" type="email">
+                                        <input id="email" type="email" ng-model="credentials.email">
                                         <label for="email">Courriel</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="password" type="password">
+                                        <input id="password" type="password" ng-model="credentials.password">
                                         <label for="password">Mot de passe</label>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="card-action right-align">
-                        <a class="btn waves-effect waves-light" href="accueil_publicite.html">Connexion</a>
+                        <a class="btn waves-effect waves-light" ng-click="connexion()">Connexion</a>
                     </div>
                 </div>
             </div>
@@ -49,11 +49,13 @@
     </div>
 </main>
 
-<footer class="page-footer" footer-template></footer>
+<footer class="page-footer" footer-not-connected-template></footer>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-animate.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/squidsquads.js"></script>
+<script type="text/javascript" src="js/connexion.js"></script>
 </body>
 </html>

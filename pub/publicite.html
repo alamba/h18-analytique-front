@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="squidApp">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="../css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../css/squidsquads.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/publicite.css"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SquidSquAds</title>
+</head>
+
+<body ng-controller="PubliciteController">
+
+<header nav-admin-pub></header>
+
+<main>
+    <div class="container container-pad-top">
+        <div ng-switch="currentPage">
+            <div class="animated-page" pub-accueil ng-switch-when="accueil"></div>
+            <div class="animated-page" pub-campagnes ng-switch-when="campagnes"></div>
+            <div class="animated-page" pub-campagne-create ng-switch-when="campagne-create"></div>
+            <div class="animated-page" pub-campagne-modify ng-switch-when="campagne-modify"></div>
+        </div>
+    </div>
+</main>
+
+<footer class="page-footer" footer-template></footer>
+
+<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../js/angular.min.js"></script>
+<script type="text/javascript" src="../js/angular-animate.min.js"></script>
+<script type="text/javascript" src="../js/materialize.min.js"></script>
+<script type="text/javascript" src="../js/squidsquads.js"></script>
+<script type="text/javascript" src="../js/publicite.js"></script>
+</body>
+</html>

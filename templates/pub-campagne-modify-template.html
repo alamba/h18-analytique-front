@@ -1,0 +1,123 @@
+<div ng-controller="CampagneModifyController">
+    <div class="row">
+        <div class="col s12 m4">
+            <a class="btn-flat squid-text" ng-click="setCurrentPage('campagnes')"><i class="material-icons left">chevron_left</i>Campagnes publicitaires</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="publicity-horizontal">
+                <h5 class="light hide-on-med-and-down" ng-if="!selectedCampagne.banner.horizontal">Aperçu de votre bannière horizontale</h5>
+                <img class="hide-on-med-and-down" id="horizontal-img" ng-show="selectedCampagne.bannerurl.horizontal" ng-src="{{selectedCampagne.bannerurl.horizontal}}"/>
+                <h6 class="light hide-on-large-only">Aperçu horizontal non disponible sur mobile</h6>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="publicity-mobile center">
+                <h5 class="light" ng-if="!selectedCampagne.banner.mobile">Aperçu de votre bannière mobile</h5>
+                <img id="mobile-img" ng-show="selectedCampagne.bannerurl.mobile" ng-src="{{selectedCampagne.bannerurl.mobile}}"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 l6 offset-l3">
+            <div class="card z-depth-2">
+                <div class="card-content">
+                    <span class="card-title">Modification de la campagne publicitaire</span>
+                    <div class="row no-margin-bot">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="campagne" type="text" ng-model="selectedCampagne.nom" placeholder="">
+                                    <label for="campagne">Nom de la campagne publicitaire</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="redirection" type="url" ng-model="selectedCampagne.url" placeholder="">
+                                    <label for="redirection">URL de redirection</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <select id="profildrop" multiple>
+                                        <option value="" disabled>Choisir un ou plusieurs profil utilisateurs</option>
+                                        <option value="1">Profil utilisateur 1</option>
+                                        <option value="2">Profil utilisateur 2</option>
+                                        <option value="3">Profil utilisateur 3</option>
+                                    </select>
+                                    <label for="profildrop">Profils utilisateurs</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <form action="#">
+                                    <div class="file-field input-field">
+                                        <div class="btn w-50">
+                                            <span>Bannière horizontale</span>
+                                            <input id="horizontal-file" type="file">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" ng-model="selectedCampagne.banner.horizontal">
+                                        </div>
+                                    </div>
+                                </form>
+                                <form action="#">
+                                    <div class="file-field input-field">
+                                        <div class="btn w-50">
+                                            <span>Bannière verticale</span>
+                                            <input id="vertical-file" type="file">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" ng-model="selectedCampagne.banner.vertical">
+                                        </div>
+                                    </div>
+                                </form>
+                                <form action="#">
+                                    <div class="file-field input-field">
+                                        <div class="btn w-50">
+                                            <span>Bannière mobile</span>
+                                            <input id="mobile-file" type="file">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" ng-model="selectedCampagne.banner.mobile">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="datedebut" type="text" class="datepicker" ng-model="selectedCampagne.datedebut" placeholder="">
+                                    <label for="datedebut">Date de début</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="datefin" type="text" class="datepicker" ng-model="selectedCampagne.datefin" placeholder="">
+                                    <label for="datefin">Date de fin</label>
+                                </div>
+                            </div>
+                            <div class="row no-margin-bot">
+                                <div class="input-field col s6">
+                                    <input id="budget" type="number" min="0" ng-model="selectedCampagne.budget" placeholder="">
+                                    <label for="budget">Budget</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <div class="shadow-clearfix">
+                        <a class="btn waves-effect waves-light left white squid-text" href="#">Supprimer</a>
+                        <a class="btn waves-effect waves-light right light-blue" href="#">Modifier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 l3">
+            <div class="publicity-vertical center">
+                <h5 class="light" ng-if="!selectedCampagne.banner.vertical">Aperçu de votre bannière verticale</h5>
+                <img id="vertical-img" ng-show="selectedCampagne.bannerurl.vertical" ng-src="{{selectedCampagne.bannerurl.vertical}}"/>
+            </div>
+        </div>
+    </div>
+</div>

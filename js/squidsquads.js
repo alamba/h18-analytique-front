@@ -1,14 +1,19 @@
 //////////////////////////////////////////////////////////////////////////
 // AngularJS CONFIG
 //////////////////////////////////////////////////////////////////////////
-var app = angular.module('squidApp', []);
+var app = angular.module('squidApp', ['ngAnimate']);
+
+//////////////////////////////////////////////////////////////////////////
+// CONSTANTS
+//////////////////////////////////////////////////////////////////////////
+app.constant('SERVER_URL', 'TODEF');
 
 //////////////////////////////////////////////////////////////////////////
 // DIRECTIVES / TEMPLATES
 //////////////////////////////////////////////////////////////////////////
 app.directive('navNotConnected', function () {
     return {
-        templateUrl: './templates/nav-not-connected-template.html',
+        templateUrl: 'templates/nav-not-connected-template.html',
         scope: {
             activeLink: '@'
         },
@@ -18,17 +23,14 @@ app.directive('navNotConnected', function () {
     };
 }).directive('navAdminPub', function () {
     return {
-        templateUrl: './templates/nav-admin-pub-template.html',
-        scope: {
-            activeLink: '@'
-        },
+        templateUrl: '../templates/nav-admin-pub-template.html',
         link: function () {
             prepMaterializeCss();
         }
     };
 }).directive('navAdminWeb', function () {
     return {
-        templateUrl: './templates/nav-admin-web-template.html',
+        templateUrl: '../templates/nav-admin-web-template.html',
         scope: {
             activeLink: '@'
         },
@@ -38,17 +40,11 @@ app.directive('navNotConnected', function () {
     };
 }).directive('footerTemplate', function () {
     return {
-        templateUrl: './templates/footer-template.html'
+        templateUrl: '../templates/footer-template.html'
     };
-}).directive('campaignTemplate', function () {
+}).directive('footerNotConnectedTemplate', function () {
     return {
-        templateUrl: './templates/campaign-template.html',
-        scope: {
-            campagne: '=campagneInfo'
-        },
-        link: function () {
-            prepMaterializeCss();
-        }
+        templateUrl: 'templates/footer-template.html'
     };
 });
 
@@ -82,4 +78,30 @@ function prepMaterializeCss() {
         clear: 'Effacer',
         formatSubmit: 'yyyy-mm-dd'
     });
+    $('.datepicker').pickadate();
+
+    // Adjust active labels for form inputs
+    window.Materialize.updateTextFields();
+
+    // Fix for ng-animate getting stuck
+    setTimeout(function () {
+        $('.animated-page').each(function () {
+            $(this).removeClass('ng-animate ng-enter ng-enter-active')
+        });
+    }, 400);
+}
+
+function readURL(input, img) {
+
+    if (input.files && input.files.length === 0) {
+        img.attr('src', '');
+    } else if (input.files && input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            img.attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }

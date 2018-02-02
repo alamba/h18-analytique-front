@@ -1,0 +1,97 @@
+/* Publicite */
+.animated-page.ng-enter {
+    transition: all ease 0.3s;
+    opacity: 0.1;
+}
+
+.animated-page.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.animated-page.ng-leave {
+    transition: none;
+}
+
+/* Accueil */
+.card-accueil .card-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+.card-accueil .card-image img {
+    width: 200px;
+}
+
+.card-accueil:hover {
+    background-color: #03a9f4;
+    color: #fff;
+    cursor: pointer;
+}
+
+.card-accueil:hover > .card-image img {
+    -webkit-transition: all 150ms ease-in-out;
+    -moz-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+    width: 250px;
+}
+
+/* Campagnes */
+.card-campagne .card-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.campagne-creation {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.campagne-btn {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.campagne-uppercase li a {
+    text-transform: uppercase;
+}
+
+/* Campagne create */
+div[class^='publicity'], div[class*=' publicity'] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cccccc;
+    background-color: #eeeeee;
+    color: #aaaaaa;
+}
+
+.publicity-horizontal {
+    margin: auto;
+    width: 728px;
+    height: 90px;
+}
+
+.publicity-vertical {
+    margin: auto;
+    width: 120px;
+    height: 600px;
+}
+
+.publicity-mobile {
+    margin: auto;
+    width: 320px;
+    height: 100px;
+}
+
+@media only screen and (max-width: 768px) {
+    .publicity-horizontal {
+        max-width: 90%;
+    }
+}
