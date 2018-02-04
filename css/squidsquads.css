@@ -40,7 +40,7 @@ main {
 }
 
 .container-pad-top {
-    padding-top: 3.5rem;
+    padding-top: 3rem;
 }
 
 .no-padding-bot {
@@ -86,4 +86,18 @@ a.no-style:link, a.no-style:visited {
 
 .table.bordered.no-border-bottom-last > thead > tr, table.bordered > tbody > tr:last-child {
     border-bottom: none;
+}
+
+/* Animations */
+.animated-page.ng-enter {
+    transition: all ease 0.3s;
+    opacity: 0.1;
+}
+
+.animated-page.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.animated-page.ng-leave {
+    transition: none;
 }

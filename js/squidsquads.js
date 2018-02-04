@@ -1,19 +1,36 @@
+/**
+ * @file Contient le bootstrap du module Angular et des fonctions globales
+ */
+
+
 //////////////////////////////////////////////////////////////////////////
 // AngularJS CONFIG
 //////////////////////////////////////////////////////////////////////////
-var app = angular.module('squidApp', ['ngAnimate']);
+var app = angular.module('squidApp', ['ngAnimate', 'LocalStorageModule']);
 
 //////////////////////////////////////////////////////////////////////////
 // CONSTANTS
 //////////////////////////////////////////////////////////////////////////
-app.constant('SERVER_URL', 'TODEF');
+app.constant('SERVER_URL', 'http://my-json-server.typicode.com/SimCote/fake-json-api/')
+    .constant('AUTH_KEY', 'authorizationSquidSquads');
+
+//////////////////////////////////////////////////////////////////////////
+// CONSTANTS
+//////////////////////////////////////////////////////////////////////////
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptorService');
+});
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
 
 //////////////////////////////////////////////////////////////////////////
 // DIRECTIVES / TEMPLATES
 //////////////////////////////////////////////////////////////////////////
 app.directive('navNotConnected', function () {
     return {
-        templateUrl: 'templates/nav-not-connected-template.html',
+        templateUrl: './templates/nav-not-connected-template.html',
         scope: {
             activeLink: '@'
         },
@@ -23,28 +40,21 @@ app.directive('navNotConnected', function () {
     };
 }).directive('navAdminPub', function () {
     return {
-        templateUrl: '../templates/nav-admin-pub-template.html',
+        templateUrl: './templates/nav-admin-pub-template.html',
         link: function () {
             prepMaterializeCss();
         }
     };
 }).directive('navAdminWeb', function () {
     return {
-        templateUrl: '../templates/nav-admin-web-template.html',
-        scope: {
-            activeLink: '@'
-        },
+        templateUrl: './templates/nav-admin-web-template.html',
         link: function () {
             prepMaterializeCss();
         }
     };
 }).directive('footerTemplate', function () {
     return {
-        templateUrl: '../templates/footer-template.html'
-    };
-}).directive('footerNotConnectedTemplate', function () {
-    return {
-        templateUrl: 'templates/footer-template.html'
+        templateUrl: './templates/footer-template.html'
     };
 });
 
@@ -82,13 +92,6 @@ function prepMaterializeCss() {
 
     // Adjust active labels for form inputs
     window.Materialize.updateTextFields();
-
-    // Fix for ng-animate getting stuck
-    setTimeout(function () {
-        $('.animated-page').each(function () {
-            $(this).removeClass('ng-animate ng-enter ng-enter-active')
-        });
-    }, 400);
 }
 
 function readURL(input, img) {
@@ -104,4 +107,12 @@ function readURL(input, img) {
 
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+function fixForNgAnimateGettingStuck() {
+    setTimeout(function () {
+        $('.animated-page').each(function () {
+            $(this).removeClass('ng-animate ng-enter ng-enter-active')
+        });
+    }, 400);
 }

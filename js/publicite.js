@@ -1,27 +1,42 @@
+/**
+ * @file Contient les contrôleurs et gère les templates de la section publicité
+ */
+
 //////////////////////////////////////////////////////////////////////////
 // DIRECTIVES / TEMPLATES
 //////////////////////////////////////////////////////////////////////////
 app.directive('pubAccueil', function () {
     return {
-        templateUrl: '../templates/pub-accueil-template.html'
+        templateUrl: './templates/pub-accueil-template.html'
+    };
+}).directive('pubParametres', function () {
+    return {
+        templateUrl: './templates/pub-parametres-template.html'
     };
 }).directive('pubCampagnes', function () {
     return {
-        templateUrl: '../templates/pub-campagnes-template.html',
+        templateUrl: './templates/pub-campagnes-template.html',
         link: function () {
             prepMaterializeCss();
         }
     };
 }).directive('pubCampagneCreate', function () {
     return {
-        templateUrl: '../templates/pub-campagne-create-template.html',
+        templateUrl: './templates/pub-campagne-create-template.html',
         link: function () {
             prepMaterializeCss();
         }
     };
 }).directive('pubCampagneModify', function () {
     return {
-        templateUrl: '../templates/pub-campagne-modify-template.html',
+        templateUrl: './templates/pub-campagne-modify-template.html',
+        link: function () {
+            prepMaterializeCss();
+        }
+    };
+}).directive('pubProfils', function () {
+    return {
+        templateUrl: './templates/pub-profils-template.html',
         link: function () {
             prepMaterializeCss();
         }
@@ -31,7 +46,9 @@ app.directive('pubAccueil', function () {
 //////////////////////////////////////////////////////////////////////////
 // CONTROLLLERS
 //////////////////////////////////////////////////////////////////////////
-app.controller('PubliciteController', ['$scope', function ($scope) {
+app.controller('PubliciteController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    apiService.clearCache();
 
     ///
     // Gestion des pages
@@ -51,51 +68,16 @@ app.controller('PubliciteController', ['$scope', function ($scope) {
     $scope.setCurrentPage = function (page, selectedCampagneId) {
         $scope.currentPage = page;
         $scope.selectedCampagneId = selectedCampagneId;
+        fixForNgAnimateGettingStuck();
     };
 
-}]).controller('CampagnesController', ['$scope', function ($scope) {
+}]).controller('CampagnesController', ['$scope', 'apiService', function ($scope, apiService) {
 
-    ///
-    // Données de test
-    ///
+    $scope.campagneListShort = [];
 
-    $scope.campagnesShort = [
-        {
-            id: 10001,
-            name: 'Tipico',
-            datecreation: '2018-02-02'
-        },
-        {
-            id: 10002,
-            name: 'Cartoon Networks',
-            datecreation: '2018-01-18'
-        },
-        {
-            id: 10003,
-            name: 'Quaker',
-            datecreation: '2018-01-07'
-        },
-        {
-            id: 10004,
-            name: 'Pathmatics',
-            datecreation: '2017-12-09'
-        },
-        {
-            id: 10005,
-            name: 'Contact Lenses',
-            datecreation: '2017-11-13'
-        },
-        {
-            id: 10006,
-            name: 'Hoagie: The Game',
-            datecreation: '2017-10-31'
-        },
-        {
-            id: 10007,
-            name: 'AMSOIL',
-            datecreation: '2017-07-24'
-        }
-    ];
+    apiService.campagneListShort().then((result) => {
+        $scope.campagneListShort = result.data;
+    });
 
     ///
     // Gestion des filtres de campagnes
@@ -160,9 +142,9 @@ app.controller('PubliciteController', ['$scope', function ($scope) {
                 mobile: "mobile-tipico.gif"
             },
             bannerurl: {
-                horizontal: "../test/continental-horizontal.gif",
-                vertical: "../test/honda-vertical.gif",
-                mobile: "../test/mobile-tipico.gif"
+                horizontal: "./test/continental-horizontal.gif",
+                vertical: "./test/honda-vertical.gif",
+                mobile: "./test/mobile-tipico.gif"
             }
         },
         {
@@ -181,7 +163,7 @@ app.controller('PubliciteController', ['$scope', function ($scope) {
             bannerurl: {
                 horizontal: "",
                 vertical: "",
-                mobile: "../test/mobile-cartoonnetworks.png"
+                mobile: "./test/mobile-cartoonnetworks.png"
             }
         }
     ];
@@ -215,4 +197,20 @@ app.controller('PubliciteController', ['$scope', function ($scope) {
         $("#datefin").val($scope.selectedCampagne.datefin).pickadate();
     }
 
+}]).controller('ProfilsController', ['$scope', function ($scope) {
+
+    $scope.urlCount = 1;
+
+    $scope.getUrlCount = function () {
+        return new Array($scope.urlCount);
+    };
+
+    $scope.incrementUrlCount = function () {
+        $scope.urlCount++;
+    };
+
+    $scope.decrementUrlCount = function () {
+        if ($scope.urlCount > 1)
+            $scope.urlCount--;
+    };
 }]);

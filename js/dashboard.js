@@ -1,3 +1,7 @@
+/**
+ * @file Contient le contrôleur du Dashboard (aussi appelé 'Accueil') et gère Chart.js
+ */
+
 //////////////////////////////////////////////////////////////////////////
 // CONTROLLLERS
 //////////////////////////////////////////////////////////////////////////
@@ -118,6 +122,7 @@ function setData(chart, labels, data) {
 Chart.defaults.scale.ticks.beginAtZero = true;
 Chart.defaults.global.defaultFontColor = "#FFFFFF";
 
+
 let visiteCtx = $("#visiteChart");
 let navigateurCtx = $("#navigateurChart");
 let redevanceCtx = $("#redevanceChart");
@@ -189,7 +194,7 @@ let redevanceChart = new Chart(redevanceCtx, {
         animation: {
             animateRotate: true
         },
-        cutoutPercentage : 75,
+        cutoutPercentage: 75,
         legend: {
             display: true,
             labels: {
