@@ -23,7 +23,7 @@
 <header nav-not-connected active-link="compte_creation"></header>
 
 <main>
-    <div class="container container-pad-top">
+    <div class="container container-pad-top" ng-controller="CompteCreationController">
         <div class="row">
             <div class="col s12 m6 offset-m3">
                 <div class="card z-depth-3">
@@ -33,11 +33,11 @@
                             <form class="col s12">
                                 <p>Quel est votre objectif ?</p>
                                 <p>
-                                    <input class="with-gap" name="group1" type="radio" id="adminpub" checked="checked"/>
+                                    <input class="with-gap" name="group1" type="radio" id="adminpub" checked="checked" ng-model="typeAdmin" value="adminpub"/>
                                     <label for="adminpub" class="dark-grey-label">Créer des campagnes publicitaires pour ma compagnie</label>
                                 </p>
                                 <p>
-                                    <input class="with-gap" name="group1" type="radio" id="adminweb"/>
+                                    <input class="with-gap" name="group1" type="radio" id="adminweb" ng-model="typeAdmin" value="adminweb"/>
                                     <label for="adminweb" class="dark-grey-label">Présenter des publicités sur mon site web</label>
                                 </p>
                                 <div class="row">
@@ -46,7 +46,7 @@
                                         <label for="email">Courriel</label>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row animated-page" ng-if="typeAdmin === 'adminweb'">
                                     <div class="input-field col s12">
                                         <input id="domain" type="url" class="validate">
                                         <label for="domain">Domaine de site web</label>
@@ -92,5 +92,6 @@
 <script type="text/javascript" src="js/squidsquads.js"></script>
 <script type="text/javascript" src="js/authInterceptorService.js"></script>
 <script type="text/javascript" src="js/authService.js"></script>
+<script type="text/javascript" src="js/compteCreation.js"></script>
 </body>
 </html>
