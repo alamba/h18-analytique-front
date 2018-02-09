@@ -6,7 +6,7 @@
  Consulte : 2016-10-03
  Auteur : attilah@GitHub
  */
-app.factory('authService', ['$http', '$q', '$window', 'localStorageService', 'apiService', 'SERVER_URL', 'AUTH_KEY', function ($http, $q, $window, localStorageService, apiService, SERVER_URL, AUTH_KEY) {
+app.factory('authService', ['$http', '$q', '$window', 'localStorageService', 'SERVER_URL', 'AUTH_KEY', function ($http, $q, $window, localStorageService, SERVER_URL, AUTH_KEY) {
 
     let _auth = {
         authenticated: false,
@@ -55,7 +55,7 @@ app.factory('authService', ['$http', '$q', '$window', 'localStorageService', 'ap
 
         // Clear local storage
         localStorageService.remove(AUTH_KEY);
-        apiService.clearCache();
+        localStorageService.clearAll(/^api\-/);
 
         // Redirect
         _redirectAccordingly();
