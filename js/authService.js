@@ -6,50 +6,39 @@
  Consulte : 2016-10-03
  Auteur : attilah@GitHub
  */
-app.factory('authService', ['$http', '$q', 'localStorageService', 'SERVER_URL', 'AUTH_KEY', function ($http, $q, localStorageService, SERVER_URL, AUTH_KEY) {
+app.factory('authService', ['$http', '$q', '$window', 'localStorageService', 'apiService', 'SERVER_URL', 'AUTH_KEY', function ($http, $q, $window, localStorageService, apiService, SERVER_URL, AUTH_KEY) {
 
-    let authServiceFactory = {};
-
-    let _authentication = {
-        isAuth: false,
-        isAdminPub: false,
-        isAdminWeb: false,
-        displayName: ''
+    let _auth = {
+        authenticated: false,
+        adminPub: false,
+        adminWeb: false,
+        accountId: 0,
+        displayName: '',
+        token: ''
     };
 
     let _login = function (loginData) {
 
         let deferred = $q.defer();
 
-        $http({
-            method: 'POST',
-            url: SERVER_URL + '/account/login',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            },
-            data: JSON.stringify(loginData)
-        }).then(function (response) {
-            response.data = JSON.parse(response.data);
+        $http.post(SERVER_URL + '/account/login', loginData)
+            .then(function (res) {
 
-            // Set session info in browser local storage
-            localStorageService.set(AUTH_KEY, {
-                token: response.data.token,
-                displayName: response.data.displayName,
-                isAdminPub: response.data.isAdminPub,
-                isAdminWeb: response.data.isAdminWeb
+                // Set session info in auth service object
+                _auth.authenticated = res.data.authenticated;
+                _auth.adminPub = res.data.adminPub;
+                _auth.adminWeb = res.data.adminWeb;
+                _auth.displayName = res.data.displayName;
+                _auth.accountId = res.data.accountId;
+                _auth.token = res.data.token;
+
+                // Set session info in browser local storage
+                localStorageService.set(AUTH_KEY, _auth);
+
+                deferred.resolve(res);
+            }, function (err) {
+                deferred.reject(err);
             });
-
-            // Set session info in auth service object
-            _authentication.isAuth = true;
-            _authentication.isAdminPub = response.data.isAdminPub;
-            _authentication.isAdminWeb = response.data.isAdminWeb;
-            _authentication.displayName = response.data.displayName;
-
-            deferred.resolve(response);
-        }, function (err) {
-            _logout();
-            deferred.reject(err);
-        });
 
         return deferred.promise;
     };
@@ -57,55 +46,53 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'SERVER_URL', 
     let _logout = function () {
 
         // Clear auth service object
-        _authentication.isAuth = false;
-        _authentication.isAdminPub = false;
-        _authentication.isAdminWeb = false;
-        _authentication.displayName = '';
+        _auth.authenticated = false;
+        _auth.adminPub = false;
+        _auth.adminWeb = false;
+        _auth.accountId = 0;
+        _auth.displayName = '';
+        _auth.token = '';
+
         // Clear local storage
         localStorageService.remove(AUTH_KEY);
-    };
+        apiService.clearCache();
 
-    let _register = function (registerData, isEtudiant) {
-
-        _logout();
-        let deferred = $q.defer();
-        // Register type
-        let registerType = isEtudiant ? 'Etudiant' : 'Gestionnaire';
-
-        $http({
-            method: 'POST',
-            url: SERVER_URL + '/Api/Account/Register' + registerType,
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            },
-            data: JSON.stringify(registerData)
-        }).then(function (response) {
-            deferred.resolve(response);
-        }, function (err) {
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
+        // Redirect
+        _redirectAccordingly();
     };
 
     let _fillAuthData = function () {
 
         // Fill auth service object on site load from local storage
-        // TODO - Check if session has expired
-        var authData = localStorageService.get(AUTH_KEY);
+        let authData = localStorageService.get(AUTH_KEY);
         if (authData) {
-            _authentication.isAuth = true;
-            _authentication.isAdminPub = authData.isAdminPub;
-            _authentication.isAdminWeb = authData.isAdminWeb;
-            _authentication.displayName = authData.displayName;
+            _auth = authData;
         }
     };
 
-    authServiceFactory.login = _login;
-    authServiceFactory.logout = _logout;
-    authServiceFactory.register = _register;
-    authServiceFactory.fillAuthData = _fillAuthData;
-    authServiceFactory.authentication = _authentication;
+    let _redirectAccordingly = function () {
 
-    return authServiceFactory;
+        let currentLocation = $window.location.href.split("/").pop();
+        if (currentLocation.indexOf("#") !== -1) {
+            currentLocation = currentLocation.split("#").shift();
+        }
+
+        if (!_auth || !_auth.authenticated) {
+            if (currentLocation !== 'connexion.html' && currentLocation !== 'compte_creation.html') {
+                $window.location.href = 'connexion.html';
+            }
+        } else if (_auth.adminPub && currentLocation !== 'publicite.html') {
+            $window.location.href = 'publicite.html';
+        } else if (_auth.adminWeb && currentLocation !== 'webadmin.html') {
+            $window.location.href = 'webadmin.html';
+        }
+    };
+
+    return {
+        login: _login,
+        logout: _logout,
+        fillAuthData: _fillAuthData,
+        redirectAccordingly: _redirectAccordingly
+    };
+
 }]);

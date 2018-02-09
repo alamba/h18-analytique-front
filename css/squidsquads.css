@@ -18,6 +18,10 @@ main {
     height: 200px;
 }
 
+.brand-logo {
+    cursor: pointer;
+}
+
 .brand-logo, .squid-font {
     font-family: 'Amatic SC', cursive;
     font-weight: 700;
@@ -88,6 +92,19 @@ a.no-style:link, a.no-style:visited {
     border-bottom: none;
 }
 
+span.tooltipped {
+    position: absolute;
+    right: 2%;
+    top: 25%;
+    display: block;
+    width: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    background-color: #9e9e9e;
+    border-radius: 1.5rem;
+}
+
 /* Animations */
 .animated-page.ng-enter {
     transition: all ease 0.3s;
@@ -100,4 +117,60 @@ a.no-style:link, a.no-style:visited {
 
 .animated-page.ng-leave {
     transition: none;
+}
+
+/* Sweet Alert Material */
+.swal-overlay {
+    background-color: transparent;
+}
+
+.swal-modal {
+    border-radius: 0;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+.swal-title {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 300;
+}
+
+.swal-text {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.swal-button--confirm {
+    font-size: 1rem;
+    font-weight: normal;
+    text-decoration: none;
+    color: #fff;
+    background-color: #ED4C5C;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 2rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.swal-button--confirm:hover {
+    background-color: #ef6371;
+}
+
+.swal-button--confirm:focus {
+    box-shadow: none;
+}
+
+.swal-icon--error {
+    border-color: #ED4C5C;
+}
+
+.swal-icon--error__line {
+    background-color: #ED4C5C;
 }

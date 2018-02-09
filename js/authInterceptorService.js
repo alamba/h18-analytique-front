@@ -11,9 +11,7 @@
  Pour les requêtes sortantes, le service tente d'ajouter le token d'autorisation dans le header 'Authorization'.
  Pour les réponses, il n'intervient qu'avec le code HTTP 401, qui signifie que le token est expiré ou invalide.
  */
-app.factory('authInterceptorService', ['$q', '$injector', '$location', 'localStorageService', 'AUTH_KEY', function ($q, $injector, $location, localStorageService, AUTH_KEY) {
-
-    let authInterceptorServiceFactory = {};
+app.factory('authInterceptorService', ['$q', '$injector', 'localStorageService', 'AUTH_KEY', function ($q, $injector, localStorageService, AUTH_KEY) {
 
     let _request = function (config) {
 
@@ -34,13 +32,13 @@ app.factory('authInterceptorService', ['$q', '$injector', '$location', 'localSto
         if (rejection.status === 401) {
             let authService = $injector.get('authService');
             authService.logout();
-            $location.path('/index.html');
         }
         return $q.reject(rejection);
     };
 
-    authInterceptorServiceFactory.request = _request;
-    authInterceptorServiceFactory.responseError = _responseError;
+    return {
+        request: _request,
+        responseError: _responseError
+    };
 
-    return authInterceptorServiceFactory;
 }]);

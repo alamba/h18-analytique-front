@@ -3,16 +3,16 @@
     <ul id="dropdown-us" class="dropdown-content">
         <li><a ng-click="setCurrentPage('parametres')">Paramètres</a></li>
         <li class="divider"></li>
-        <li><a href="./index.html">Se déconnecter</a></li>
+        <li><a ng-click="logout()">Se déconnecter</a></li>
     </ul>
     <ul id="dropdown-us-mb" class="dropdown-content">
         <li><a ng-click="setCurrentPage('parametres')">Paramètres</a></li>
         <li class="divider"></li>
-        <li><a href="./index.html">Se déconnecter</a></li>
+        <li><a ng-click="logout()">Se déconnecter</a></li>
     </ul>
 
     <div class="nav-wrapper container">
-        <a id="logo-container" href="./index.html" class="brand-logo"><img src="./img/squid-logo.svg"/>SquidSquAds</a>
+        <a id="logo-container" ng-click="setCurrentPage('accueil')" class="brand-logo"><img src="./img/squid-logo.svg"/>SquidSquAds</a>
         <ul class="right hide-on-med-and-down">
             <li ng-class="{'active' : currentPage == 'accueil'}"><a ng-click="setCurrentPage('accueil')">Accueil</a></li>
             <li ng-class="{'active' : currentPage.startsWith('campagne')}"><a ng-click="setCurrentPage('campagnes')">Campagnes publicitaires</a></li>

@@ -4,54 +4,49 @@
 
 app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', function ($http, $q, localStorageService, SERVER_URL) {
 
-    const REQUEST_METHODS = {GET: 'GET', POST: 'POST', DELETE: 'DELETE', PUT: 'PUT'};
-
     //////////////////////////////////////////////////////////////////////////
     // HTTP
     //////////////////////////////////////////////////////////////////////////
-    function deferredGET(pathUrl) {
+    function deferredGET(endpoint) {
 
         let deferred = $q.defer();
 
-        $http.get(SERVER_URL + pathUrl).then(function (response) {
+        $http.get(SERVER_URL + endpoint).then(function (response) {
             // Success
             deferred.resolve(response);
         }, function (err) {
             // Error
-            console.error(err);
             deferred.reject(err);
         });
 
         return deferred.promise;
     }
 
-    function deferredPOST(pathUrl) {
+    function deferredPOST(endpoint, data) {
 
         let deferred = $q.defer();
 
-        $http.post(SERVER_URL + pathUrl).then(function (response) {
+        $http.post(SERVER_URL + endpoint, data).then(function (response) {
             // Success
             deferred.resolve(response);
         }, function (err) {
             // Error
-            console.error(err);
             deferred.reject(err);
         });
 
         return deferred.promise;
     }
 
-    function queryAPI(endpoint, method, usesCache) {
-        if (method === REQUEST_METHODS.GET) {
-            if (usesCache) {
-                return tryUsingEndpointCache(endpoint);
-            } else {
-                return deferredGET(endpoint);
-            }
+    function getAPI(endpoint, method, usesCache) {
+        if (usesCache) {
+            return tryUsingEndpointCache(endpoint);
+        } else {
+            return deferredGET(endpoint);
         }
-        if (method === REQUEST_METHODS.POST) {
-            return deferredPOST(endpoint);
-        }
+    }
+
+    function postAPI(endpoint, data) {
+        return deferredPOST(endpoint, data);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -123,12 +118,24 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     //////////////////////////////////////////////////////////////////////////
     // API
     //////////////////////////////////////////////////////////////////////////
-    let _campagneListShort = function () {
-        return queryAPI('/campagneListShort', REQUEST_METHODS.GET, true);
+
+    // Comptes //
+    let _createAccount = function (data) {
+        return postAPI('/account/create', data);
+    };
+
+    // Campagnes //
+    let _getCampagne = function () {
+        return getAPI('/campagne', true);
     };
 
     return {
+        // Cache //
         clearCache: _clearCache,
-        campagneListShort: _campagneListShort
+        // Comptes //
+        createAccount: _createAccount,
+        // Campagnes //
+        getCampagne: _getCampagne
     };
+
 }]);

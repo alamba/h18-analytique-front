@@ -33,40 +33,41 @@
                             <form class="col s12">
                                 <p>Quel est votre objectif ?</p>
                                 <p>
-                                    <input class="with-gap" name="group1" type="radio" id="adminpub" checked="checked" ng-model="typeAdmin" value="adminpub"/>
+                                    <input class="with-gap" name="group1" type="radio" id="adminpub" checked="checked" ng-model="account.adminType" ng-value="ADMIN_TYPE.PUB"/>
                                     <label for="adminpub" class="dark-grey-label">Créer des campagnes publicitaires pour ma compagnie</label>
                                 </p>
                                 <p>
-                                    <input class="with-gap" name="group1" type="radio" id="adminweb" ng-model="typeAdmin" value="adminweb"/>
+                                    <input class="with-gap" name="group1" type="radio" id="adminweb" ng-model="account.adminType" ng-value="ADMIN_TYPE.WEB"/>
                                     <label for="adminweb" class="dark-grey-label">Présenter des publicités sur mon site web</label>
                                 </p>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="email" type="email" class="validate">
+                                        <input id="email" type="email" class="validate" ng-model="account.email">
                                         <label for="email">Courriel</label>
                                     </div>
                                 </div>
-                                <div class="row animated-page" ng-if="typeAdmin === 'adminweb'">
+                                <div class="row animated-page" ng-if="account.adminType === ADMIN_TYPE.WEB">
                                     <div class="input-field col s12">
-                                        <input id="domain" type="url" class="validate">
+                                        <input id="domain" type="url" class="validate" ng-model="account.domain">
                                         <label for="domain">Domaine de site web</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="bank" type="number" class="validate">
+                                        <input id="bank" type="text" class="validate" ng-model="account.bank">
                                         <label for="bank">Numéro de compte de banque</label>
+                                        <span class="tooltipped" data-position="top" data-tooltip="BBB-CCCCC (ex: 000-12345)">?</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="password" type="password" class="validate">
+                                        <input id="password" type="password" class="validate" ng-model="account.password">
                                         <label for="password">Mot de passe</label>
                                     </div>
                                 </div>
                                 <div class="row no-margin-bot">
                                     <div class="input-field col s12">
-                                        <input id="confirmpassword" type="password" class="validate">
+                                        <input id="confirmpassword" type="password" class="validate" ng-model="account.confirmPassword">
                                         <label for="confirmpassword">Confirmation du mot de passe</label>
                                     </div>
                                 </div>
@@ -74,7 +75,7 @@
                         </div>
                     </div>
                     <div class="card-action right-align">
-                        <a class="btn waves-effect waves-light" href="#">Créer</a>
+                        <a class="btn waves-effect waves-light" ng-click="create()">Créer</a>
                     </div>
                 </div>
             </div>
@@ -89,9 +90,11 @@
 <script type="text/javascript" src="js/lib/angular-animate.min.js"></script>
 <script type="text/javascript" src="js/lib/angular-local-storage.min.js"></script>
 <script type="text/javascript" src="js/lib/materialize.min.js"></script>
+<script type="text/javascript" src="js/lib/sweetalert.min.js"></script>
 <script type="text/javascript" src="js/squidsquads.js"></script>
 <script type="text/javascript" src="js/authInterceptorService.js"></script>
 <script type="text/javascript" src="js/authService.js"></script>
+<script type="text/javascript" src="js/apiService.js"></script>
 <script type="text/javascript" src="js/compteCreation.js"></script>
 </body>
 </html>

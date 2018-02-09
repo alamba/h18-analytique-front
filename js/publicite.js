@@ -46,13 +46,11 @@ app.directive('pubAccueil', function () {
 //////////////////////////////////////////////////////////////////////////
 // CONTROLLLERS
 //////////////////////////////////////////////////////////////////////////
-app.controller('PubliciteController', ['$scope', 'apiService', function ($scope, apiService) {
+app.controller('PubliciteController', ['$scope', 'apiService', 'authService', function ($scope, apiService, authService) {
 
     apiService.clearCache();
 
-    ///
-    // Gestion des pages
-    ///
+    // Gestion des pages //
     const pages = {
         accueil: 'accueil',
         campagnes: 'campagnes',
@@ -68,20 +66,25 @@ app.controller('PubliciteController', ['$scope', 'apiService', function ($scope,
     $scope.setCurrentPage = function (page, selectedCampagneId) {
         $scope.currentPage = page;
         $scope.selectedCampagneId = selectedCampagneId;
-        fixForNgAnimateGettingStuck();
+        fixForAnimationsGettingStuck();
     };
+
+    $scope.logout = () => authService.logout();
 
 }]).controller('CampagnesController', ['$scope', 'apiService', function ($scope, apiService) {
 
     $scope.campagneListShort = [];
 
-    apiService.campagneListShort().then((result) => {
-        $scope.campagneListShort = result.data;
-    });
+    apiService.getCampagne().then(
+        function (res) {
+            $scope.campagneListShort = res.data;
+        },
+        function (err) {
+            // Do nothing for now
+        }
+    );
 
-    ///
-    // Gestion des filtres de campagnes
-    ///
+    // Gestion des filtres de campagnes //
     $scope.filters = {
         datedescend: {
             property: '-datecreation',

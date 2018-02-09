@@ -22,11 +22,9 @@ app.directive('webParametres', function () {
 //////////////////////////////////////////////////////////////////////////
 // CONTROLLLERS
 //////////////////////////////////////////////////////////////////////////
-app.controller('WebAdminController', ['$scope', function ($scope) {
+app.controller('WebAdminController', ['$scope', 'authService', function ($scope, authService) {
 
-    ///
-    // Gestion des pages
-    ///
+    // Gestion des pages //
     const pages = {
         accueil: 'accueil',
         redevances: 'redevances',
@@ -38,7 +36,9 @@ app.controller('WebAdminController', ['$scope', function ($scope) {
 
     $scope.setCurrentPage = function (page) {
         $scope.currentPage = page;
-        fixForNgAnimateGettingStuck();
+        fixForAnimationsGettingStuck();
     };
+
+    $scope.logout = () => authService.logout();
 
 }]);

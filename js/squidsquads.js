@@ -11,11 +11,12 @@ var app = angular.module('squidApp', ['ngAnimate', 'LocalStorageModule']);
 //////////////////////////////////////////////////////////////////////////
 // CONSTANTS
 //////////////////////////////////////////////////////////////////////////
-app.constant('SERVER_URL', 'http://my-json-server.typicode.com/SimCote/fake-json-api/')
-    .constant('AUTH_KEY', 'authorizationSquidSquads');
+app.constant('SERVER_URL', 'http://127.0.0.1:8080')
+    .constant('AUTH_KEY', 'authorizationSquidSquads')
+    .constant('ADMIN_TYPE', {WEB: 'WEB', PUB: 'PUB'});
 
 //////////////////////////////////////////////////////////////////////////
-// CONSTANTS
+// CONFIG
 //////////////////////////////////////////////////////////////////////////
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
@@ -23,6 +24,7 @@ app.config(function ($httpProvider) {
 
 app.run(['authService', function (authService) {
     authService.fillAuthData();
+    authService.redirectAccordingly();
 }]);
 
 //////////////////////////////////////////////////////////////////////////
@@ -79,6 +81,9 @@ function prepMaterializeCss() {
     // collapsible
     $('.collapsible').collapsible();
 
+    // tooltips
+    $('.tooltipped').tooltip({delay: 50});
+
     // pick a date formatting
     $.extend($.fn.pickadate.defaults, {
         format: 'yyyy-mm-dd',
@@ -109,7 +114,8 @@ function readURL(input, img) {
     }
 }
 
-function fixForNgAnimateGettingStuck() {
+function fixForAnimationsGettingStuck() {
+    $('.button-collapse').sideNav('hide');
     setTimeout(function () {
         $('.animated-page').each(function () {
             $(this).removeClass('ng-animate ng-enter ng-enter-active')

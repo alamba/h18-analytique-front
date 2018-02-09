@@ -24,7 +24,7 @@
                     <div class="card-content no-padding-bot">
                         <span class="card-title">Connexion</span>
                         <div class="row no-margin-bot">
-                            <form class="col s12">
+                            <form class="col s12" ng-submit="connexion()">
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <input id="email" type="email" ng-model="credentials.email">
@@ -38,6 +38,9 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                        <div class="row center-align" ng-if="message.length">
+                            <p class="red-text">{{message}}</p>
                         </div>
                     </div>
                     <div class="card-action right-align">
