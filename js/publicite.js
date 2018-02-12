@@ -167,6 +167,8 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
             return;
         }
 
+        $("#create-button").addClass('disabled');
+
         $q.all([
             apiService.uploadImgur($("#horizontal-file")[0]),
             apiService.uploadImgur($("#vertical-file")[0]),
@@ -188,6 +190,7 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
                         });
                 },
                 function (err) {
+                    $("#create-button").removeClass('disabled');
                     swal({text: err.data.message, icon: "error"});
                 }
             );
@@ -252,6 +255,8 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         if ($scope.imgLocal.ver) imgur.push(apiService.uploadImgur($("#vertical-file")[0]));
         if ($scope.imgLocal.mob) imgur.push(apiService.uploadImgur($("#mobile-file")[0]));
 
+        $("#modify-button").addClass('disabled');
+
         $q.all(imgur).then(data => {
             let index = 0;
             if ($scope.imgLocal.hor) $scope.campagne.imgHorizontal = data[index++].data.link;
@@ -270,6 +275,7 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
                         });
                 },
                 function (err) {
+                    $("#modify-button").removeClass('disabled');
                     swal({text: err.data.message, icon: "error"});
                 }
             );
