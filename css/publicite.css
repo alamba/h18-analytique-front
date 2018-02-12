@@ -81,3 +81,13 @@ div[class^='publicity'], div[class*=' publicity'] {
         max-width: 90%;
     }
 }
+
+/* Profil */
+.stretch-row {
+    display: flex;
+    align-items: stretch;
+}
+
+.clear-row {
+    padding: 0.5rem 0;
+}

@@ -17,6 +17,9 @@ app.factory('authInterceptorService', ['$q', '$injector', 'localStorageService',
 
         config.headers = config.headers || {};
 
+        if (config.url === 'https://api.imgur.com/3/image.json')
+            return config;
+
         // Insert "Token" header in every outgoing http request
         let authData = localStorageService.get(AUTH_KEY);
         if (authData) {

@@ -11,7 +11,7 @@ var app = angular.module('squidApp', ['ngAnimate', 'LocalStorageModule']);
 //////////////////////////////////////////////////////////////////////////
 // CONSTANTS
 //////////////////////////////////////////////////////////////////////////
-app.constant('SERVER_URL', 'http://127.0.0.1:8080')
+app.constant('SERVER_URL', 'https://squidsquads-backend-dev.herokuapp.com')
     .constant('AUTH_KEY', 'authorizationSquidSquads')
     .constant('ADMIN_TYPE', {WEB: 'WEB', PUB: 'PUB'});
 
@@ -69,14 +69,14 @@ $(document).ready(function () {
 
 function prepMaterializeCss() {
 
-    // re-bind the generated select
-    $('select').material_select();
-
     // sidebar on mobile
     $('.button-collapse').sideNav();
 
     // dropdown activation
     $('.dropdown-button').dropdown({belowOrigin: true});
+
+    // re-bind the generated select
+    $('select').material_select();
 
     // collapsible
     $('.collapsible').collapsible();

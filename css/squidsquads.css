@@ -138,7 +138,7 @@ span.tooltipped {
     color: rgba(0, 0, 0, 0.87);
 }
 
-.swal-button--confirm {
+.swal-button--confirm, .swal-button--cancel {
     font-size: 1rem;
     font-weight: normal;
     text-decoration: none;
@@ -159,11 +159,19 @@ span.tooltipped {
     -webkit-tap-highlight-color: transparent;
 }
 
+.swal-button--cancel {
+    background-color: #009688;
+}
+
 .swal-button--confirm:hover {
     background-color: #ef6371;
 }
 
-.swal-button--confirm:focus {
+.swal-button--cancel:hover {
+    background-color: #4db6ac;
+}
+
+.swal-button--confirm:focus, .swal-button--cancel:focus {
     box-shadow: none;
 }
 

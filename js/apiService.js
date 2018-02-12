@@ -37,7 +37,43 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         return deferred.promise;
     }
 
-    function getAPI(endpoint, method, usesCache) {
+
+    function deferredPUT(endpoint, data) {
+
+        let deferred = $q.defer();
+
+        $http.put(SERVER_URL + endpoint, data).then(function (response) {
+            // Success
+            deferred.resolve(response);
+        }, function (err) {
+            // Error
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    }
+
+
+    function deferredDELETE(endpoint, data) {
+
+        let deferred = $q.defer();
+
+        $http.delete(SERVER_URL + endpoint).then(function (response) {
+            // Success
+            deferred.resolve(response);
+        }, function (err) {
+            // Error
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////
+    // HTTP + API + CACHE
+    //////////////////////////////////////////////////////////////////////////
+    function getAPI(endpoint, usesCache) {
         if (usesCache) {
             return tryUsingEndpointCache(endpoint);
         } else {
@@ -46,7 +82,18 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     }
 
     function postAPI(endpoint, data) {
+        _clearCache();
         return deferredPOST(endpoint, data);
+    }
+
+    function putAPI(endpoint, data) {
+        _clearCache();
+        return deferredPUT(endpoint, data);
+    }
+
+    function deleteAPI(endpoint) {
+        _clearCache();
+        return deferredDELETE(endpoint);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -125,8 +172,77 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     };
 
     // Campagnes //
-    let _getCampagne = function () {
+    let _createCampagne = function (data) {
+        return postAPI('/campagne', data);
+    };
+
+    let _getCampagneList = function () {
         return getAPI('/campagne', true);
+    };
+
+    let _getCampagne = function (campagneId) {
+        return getAPI('/campagne/' + campagneId, true);
+    };
+
+    let _modifyCampagne = function (campagneId, data) {
+        return putAPI('/campagne/' + campagneId, data);
+    };
+
+    let _deleteCampagne = function (campagneId) {
+        return deleteAPI('/campagne/' + campagneId);
+    };
+
+    // Profil //
+    let _createProfil = function (data) {
+        return postAPI('/profil', data);
+    };
+
+    let _getProfilList = function () {
+        return getAPI('/profil', true);
+    };
+
+    let _getProfil = function (profilId) {
+        return getAPI('/profil/' + profilId, true);
+    };
+
+    let _modifyProfil = function (profilId, data) {
+        return putAPI('/profil/' + profilId, data);
+    };
+
+    let _deleteProfil = function (profilId) {
+        return deleteAPI('/profil/' + profilId);
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // IMGUR
+    //////////////////////////////////////////////////////////////////////////
+
+    let _uploadImgur = function (input) {
+
+        let deferred = $q.defer();
+
+        let fd = new FormData();
+        fd.append('image', input.files[0]);
+        fd.append('album', '4oBsU');
+
+        $http({
+            method: 'POST',
+            url: 'https://api.imgur.com/3/image.json',
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer 85ed6c4bb3e7c1140c0cfca84b6b830e323a5e6e'
+            },
+            data: fd
+        }).then(function (response) {
+            // Success
+            deferred.resolve(response.data);
+        }, function (err) {
+            // Error
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
     };
 
     return {
@@ -135,7 +251,18 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         // Comptes //
         createAccount: _createAccount,
         // Campagnes //
-        getCampagne: _getCampagne
+        createCampagne: _createCampagne,
+        deleteCampagne: _deleteCampagne,
+        getCampagne: _getCampagne,
+        getCampagneList: _getCampagneList,
+        modifyCampagne: _modifyCampagne,
+        // Profils //
+        createProfil: _createProfil,
+        deleteProfil: _deleteProfil,
+        getProfil: _getProfil,
+        getProfilList: _getProfilList,
+        modifyProfil: _modifyProfil,
+        uploadImgur: _uploadImgur
     };
 
 }]);
