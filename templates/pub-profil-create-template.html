@@ -1,0 +1,47 @@
+<div ng-controller="ProfilCreateController">
+    <div class="row">
+        <div class="col s12">
+            <a class="btn-flat squid-text" ng-click="setCurrentPage('profils')"><i class="material-icons left">chevron_left</i>Profils utilisateurs</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 l6 offset-l3">
+            <div class="card z-depth-2">
+                <div class="card-content">
+                    <span class="card-title">Création d'un profil utilisateur</span>
+                    <div class="row no-margin-bot">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="pname" type="text" class="validate" ng-model="profil.name">
+                                    <label for="pname">Nom du profil</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="description" class="materialize-textarea" ng-model="profil.description"></textarea>
+                                    <label for="description">Description</label>
+                                </div>
+                            </div>
+                            <div class="row" ng-repeat="url in profil.urls track by $index" ng-class="{'stretch-row' : $index > 0}">
+                                <div class="input-field col s11" ng-class="{'s12' : $index == 0}">
+                                    <input id="url{{$index}}" type="text" class="validate" ng-model="url.val">
+                                    <label for="url{{$index}}">URL {{$index + 1}}</label>
+                                </div>
+                                <div class="input-field col s1 center" ng-if="$index > 0">
+                                    <a class="btn-flat waves-effect waves-light clear-row red-text" ng-click="removeUrl($index)"><i class="material-icons">clear</i></a>
+                                </div>
+                            </div>
+                            <div class="row center-align">
+                                <a class="btn waves-effect waves-light teal" ng-click="addUrl()"><i class="material-icons left">add</i>Ajouter un URL</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-action right-align">
+                    <a class="btn waves-effect waves-light" ng-click="create()">Créer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

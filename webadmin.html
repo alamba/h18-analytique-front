@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="squidApp">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/squidsquads.css"/>
+    <link type="text/css" rel="stylesheet" href="css/webadmin.css"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" href="img/squid.ico">
+    <title>SquidSquAds</title>
+</head>
+
+<body ng-controller="WebAdminController">
+
+<header nav-admin-web></header>
+
+<main>
+    <div class="container container-pad-top">
+        <div ng-show="currentPage === 'accueil'">
+            <div ng-controller="DashboardController">
+                <div class="row">
+                    <div class="col s12 l6">
+                        <div class="chart-wrapper cyan z-depth-3">
+                            <div class="chart-header row">
+                                <span class="col s12 l8 chart-title">Nombre de visites sur votre site</span>
+                                <div class="input-field col s6 l4 cyan darken-2">
+                                    <select class="chart-select" ng-model="visiteFilter" ng-change="visiteFilterChanged()">
+                                        <option value="1" selected>Dernières 24h</option>
+                                        <option value="2">Derniers 7 jours</option>
+                                        <option value="3">Dernier mois</option>
+                                        <option value="4">Dernière année</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-canvas">
+                                <canvas id="visiteChart" width="600" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 l6 margin-top-on-med-and-down">
+                        <div class="chart-wrapper teal z-depth-3">
+                            <div class="chart-header row">
+                                <span class="col s12 chart-title">Distribution des navigateurs utilisés par les visiteurs</span>
+                            </div>
+                            <div class="chart-canvas">
+                                <canvas id="navigateurChart" width="600" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l6">
+                        <div class="chart-wrapper z-depth-3">
+                            <div class="chart-header row">
+                                <span class="col s12 l8 chart-title black-text">Répartition des redevances</span>
+                                <div class="input-field col s6 l4 grey darken-2">
+                                    <select class="chart-select" ng-model="redevanceFilter" ng-change="redevanceFilterChanged()">
+                                        <option value="1" selected>Dernières 24h</option>
+                                        <option value="2">Derniers 7 jours</option>
+                                        <option value="3">Dernier mois</option>
+                                        <option value="4">Dernière année</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-canvas">
+                                <div>
+                                    <canvas id="redevanceChart" width="400" height="200"></canvas>
+                                </div>
+                                <span>Total<br>{{redevanceTotal}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-switch="currentPage">
+            <div class="animated-page" web-redevances ng-switch-when="redevances"></div>
+            <div class="animated-page" web-instructions ng-switch-when="instructions"></div>
+            <div class="animated-page" web-parametres ng-switch-when="parametres"></div>
+        </div>
+    </div>
+</main>
+
+<footer class="page-footer" footer-template></footer>
+
+<script type="text/javascript" src="js/lib/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/lib/angular.min.js"></script>
+<script type="text/javascript" src="js/lib/angular-animate.min.js"></script>
+<script type="text/javascript" src="js/lib/angular-local-storage.min.js"></script>
+<script type="text/javascript" src="js/lib/Chart.min.js"></script>
+<script type="text/javascript" src="js/lib/materialize.min.js"></script>
+<script type="text/javascript" src="js/lib/moment.min.js"></script>
+<script type="text/javascript" src="js/squidsquads.js"></script>
+<script type="text/javascript" src="js/authInterceptorService.js"></script>
+<script type="text/javascript" src="js/authService.js"></script>
+<script type="text/javascript" src="js/webadmin.js"></script>
+<script type="text/javascript" src="js/dashboard.js"></script>
+</body>
+</html>

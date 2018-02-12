@@ -1,0 +1,36 @@
+<div ng-controller="ProfilsController">
+    <div class="row">
+        <div class="col s12 m4">
+            <a class="btn-flat squid-text" ng-click="setCurrentPage('accueil')"><i class="material-icons left">chevron_left</i>Accueil</a>
+        </div>
+        <div class="col s12 m8 right-align">
+            <a class="btn-flat dropdown-button squid-text" data-activates="trier-par"><i class="material-icons right">filter_list</i>{{ filter.display }}</a>
+            <ul id="trier-par" class="dropdown-content campagne-uppercase">
+                <li><a ng-click="setFilter(filters.datedescend)">{{ filters.datedescend.display }}</a></li>
+                <li><a ng-click="setFilter(filters.dateascend)">{{ filters.dateascend.display }}</a></li>
+                <li><a ng-click="setFilter(filters.atoz)">{{ filters.atoz.display }}</a></li>
+                <li><a ng-click="setFilter(filters.ztoa)">{{ filters.ztoa.display }}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6 l4">
+            <div class="card card-campagne z-depth-2">
+                <div class="card-content">
+                    <span class="card-title truncate">Nouveau profil utilisateur</span>
+                    <span class="campagne-creation">&nbsp;</span>
+                    <a class="btn-floating campagne-btn waves-effect waves-light light-blue" ng-click="setCurrentPage('profil-create')"><i class="material-icons">add</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l4" ng-repeat="pr in profilList | orderBy:filter.property">
+            <div class="card card-campagne z-depth-2">
+                <div class="card-content">
+                    <span class="card-title truncate">{{ pr.name }}</span>
+                    <span class="campagne-creation">Créée le {{ pr.dateCreated }}</span>
+                    <a class="btn-floating campagne-btn waves-effect waves-light" ng-click="setCurrentPage('profil-modify', pr.id)"><i class="material-icons">create</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

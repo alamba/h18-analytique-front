@@ -1,7 +1,31 @@
+/**
+ * @file Contient le bootstrap du module Angular et des fonctions globales
+ */
+
+
 //////////////////////////////////////////////////////////////////////////
 // AngularJS CONFIG
 //////////////////////////////////////////////////////////////////////////
-var app = angular.module('squidApp', []);
+var app = angular.module('squidApp', ['ngAnimate', 'LocalStorageModule']);
+
+//////////////////////////////////////////////////////////////////////////
+// CONSTANTS
+//////////////////////////////////////////////////////////////////////////
+app.constant('SERVER_URL', 'https://squidsquads-backend-dev.herokuapp.com')
+    .constant('AUTH_KEY', 'authorizationSquidSquads')
+    .constant('ADMIN_TYPE', {WEB: 'WEB', PUB: 'PUB'});
+
+//////////////////////////////////////////////////////////////////////////
+// CONFIG
+//////////////////////////////////////////////////////////////////////////
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptorService');
+});
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+    authService.redirectAccordingly();
+}]);
 
 //////////////////////////////////////////////////////////////////////////
 // DIRECTIVES / TEMPLATES
@@ -19,9 +43,6 @@ app.directive('navNotConnected', function () {
 }).directive('navAdminPub', function () {
     return {
         templateUrl: './templates/nav-admin-pub-template.html',
-        scope: {
-            activeLink: '@'
-        },
         link: function () {
             prepMaterializeCss();
         }
@@ -29,9 +50,6 @@ app.directive('navNotConnected', function () {
 }).directive('navAdminWeb', function () {
     return {
         templateUrl: './templates/nav-admin-web-template.html',
-        scope: {
-            activeLink: '@'
-        },
         link: function () {
             prepMaterializeCss();
         }
@@ -39,16 +57,6 @@ app.directive('navNotConnected', function () {
 }).directive('footerTemplate', function () {
     return {
         templateUrl: './templates/footer-template.html'
-    };
-}).directive('campaignTemplate', function () {
-    return {
-        templateUrl: './templates/campaign-template.html',
-        scope: {
-            campagne: '=campagneInfo'
-        },
-        link: function () {
-            prepMaterializeCss();
-        }
     };
 });
 
@@ -61,17 +69,20 @@ $(document).ready(function () {
 
 function prepMaterializeCss() {
 
-    // re-bind the generated select
-    $('select').material_select();
-
     // sidebar on mobile
     $('.button-collapse').sideNav();
 
     // dropdown activation
     $('.dropdown-button').dropdown({belowOrigin: true});
 
+    // re-bind the generated select
+    $('select').material_select();
+
     // collapsible
     $('.collapsible').collapsible();
+
+    // tooltips
+    $('.tooltipped').tooltip({delay: 50});
 
     // pick a date formatting
     $.extend($.fn.pickadate.defaults, {
@@ -82,4 +93,32 @@ function prepMaterializeCss() {
         clear: 'Effacer',
         formatSubmit: 'yyyy-mm-dd'
     });
+    $('.datepicker').pickadate();
+
+    // Adjust active labels for form inputs
+    window.Materialize.updateTextFields();
+}
+
+function readURL(input, img) {
+
+    if (input.files && input.files.length === 0) {
+        img.attr('src', '');
+    } else if (input.files && input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            img.attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function fixForAnimationsGettingStuck() {
+    $('.button-collapse').sideNav('hide');
+    setTimeout(function () {
+        $('.animated-page').each(function () {
+            $(this).removeClass('ng-animate ng-enter ng-enter-active')
+        });
+    }, 400);
 }
