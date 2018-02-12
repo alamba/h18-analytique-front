@@ -24,6 +24,8 @@ app.directive('webParametres', function () {
 //////////////////////////////////////////////////////////////////////////
 app.controller('WebAdminController', ['$scope', 'authService', function ($scope, authService) {
 
+    $scope.displayName = authService.getDisplayName();
+
     // Gestion des pages //
     const pages = {
         accueil: 'accueil',

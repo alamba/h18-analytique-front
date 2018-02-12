@@ -70,6 +70,10 @@ app.factory('authService', ['$http', '$q', '$window', 'localStorageService', 'SE
         }
     };
 
+    let _getDisplayName = function () {
+        return _auth.displayName;
+    };
+
     let _redirectAccordingly = function () {
 
         let currentLocation = $window.location.href.split("/").pop();
@@ -92,6 +96,7 @@ app.factory('authService', ['$http', '$q', '$window', 'localStorageService', 'SE
         login: _login,
         logout: _logout,
         fillAuthData: _fillAuthData,
+        getDisplayName: _getDisplayName,
         redirectAccordingly: _redirectAccordingly
     };
 

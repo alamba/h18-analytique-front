@@ -74,6 +74,8 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
     // Vider la cache quand se contrôleur charge
     apiService.clearCache();
 
+    $scope.displayName = authService.getDisplayName();
+
     // Gestion des pages //
     const pages = {
         accueil: 'accueil',
