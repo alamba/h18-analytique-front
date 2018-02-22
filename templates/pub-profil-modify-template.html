@@ -1,6 +1,6 @@
 <div ng-controller="ProfilModifyController">
     <div class="row">
-        <div class="col s12 m4">
+        <div class="col s12">
             <a class="btn-flat squid-text" ng-click="setCurrentPage('profils')"><i class="material-icons left">chevron_left</i>Profils utilisateurs</a>
         </div>
     </div>
@@ -19,7 +19,7 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="description" class="materialize-textarea" ng-model="profil.description" placeholder=""></textarea>
+                                    <input id="description" type="text" class="validate" ng-model="profil.description" placeholder="">
                                     <label for="description">Description</label>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                 <div class="card-action">
                     <div class="shadow-clearfix">
                         <a class="btn waves-effect waves-light left white squid-text" ng-click="delete()">Supprimer</a>
-                        <a class="btn waves-effect waves-light right light-blue" ng-click="modify()">Modifier</a>
+                        <a class="btn waves-effect waves-light right light-blue" ng-click="modify()">Sauvegarder</a>
                     </div>
                 </div>
             </div>

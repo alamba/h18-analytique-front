@@ -1,6 +1,6 @@
 <div ng-controller="CampagneModifyController">
     <div class="row">
-        <div class="col s12 m4">
+        <div class="col s12">
             <a class="btn-flat squid-text" ng-click="setCurrentPage('campagnes')"><i class="material-icons left">chevron_left</i>Campagnes publicitaires</a>
         </div>
     </div>
@@ -24,6 +24,21 @@
     <div class="row">
         <div class="col s12 l6 offset-l3">
             <div class="card z-depth-2">
+                <div id="modify-campagne-loading" class="card-loading">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-content">
                     <span class="card-title">Modification de la campagne publicitaire</span>
                     <div class="row no-margin-bot">
@@ -57,7 +72,7 @@
                                             <input id="horizontal-file" type="file" accept="image/*">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" ng-model="imgLocal.hor">
+                                            <input class="file-path" type="text" ng-model="imgLocal.hor">
                                         </div>
                                     </div>
                                 </form>
@@ -68,7 +83,7 @@
                                             <input id="vertical-file" type="file" accept="image/*">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" ng-model="imgLocal.ver">
+                                            <input class="file-path" type="text" ng-model="imgLocal.ver">
                                         </div>
                                     </div>
                                 </form>
@@ -79,7 +94,7 @@
                                             <input id="mobile-file" type="file" accept="image/*">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" ng-model="imgLocal.mob">
+                                            <input class="file-path" type="text" ng-model="imgLocal.mob">
                                         </div>
                                     </div>
                                 </form>
@@ -106,7 +121,7 @@
                 <div class="card-action">
                     <div class="shadow-clearfix">
                         <a class="btn waves-effect waves-light left white squid-text" ng-click="delete()">Supprimer</a>
-                        <a class="btn waves-effect waves-light right light-blue" id="modify-button" ng-click="modify()">Modifier</a>
+                        <a class="btn waves-effect waves-light right light-blue" id="modify-button" ng-click="modify()">Sauvegarder</a>
                     </div>
                 </div>
             </div>

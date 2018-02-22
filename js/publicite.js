@@ -67,16 +67,20 @@ app.directive('pubAccueil', function () {
 });
 
 //////////////////////////////////////////////////////////////////////////
-// CONTROLLLERS
+// Contrôleur global pour la page Publicité
 //////////////////////////////////////////////////////////////////////////
 app.controller('PubliciteController', ['$scope', 'apiService', 'authService', function ($scope, apiService, authService) {
 
-    // Vider la cache quand se contrôleur charge
+    // Vider la cache quand ce contrôleur charge
     apiService.clearCache();
 
+    // Afficher le nom de l'utilisateur
     $scope.displayName = authService.getDisplayName();
 
-    // Gestion des pages //
+    // Lien pour se déconnecter
+    $scope.logout = () => authService.logout();
+
+    // Gestion des pages
     const pages = {
         accueil: 'accueil',
         campagnes: 'campagnes',
@@ -88,32 +92,37 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         parametres: 'parametres'
     };
 
+    // Par défaut, afficher la page d'accueil
     $scope.currentPage = pages.accueil;
     $scope.selectedId = -1;
 
+    // Changer la template affichée
     $scope.setCurrentPage = function (page, selectedId) {
         $scope.currentPage = page;
         $scope.selectedId = selectedId;
         fixForAnimationsGettingStuck();
     };
 
-    // Se déconnecter
-    $scope.logout = () => authService.logout();
+}]);
 
-}]).controller('CampagnesController', ['$scope', 'apiService', function ($scope, apiService) {
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour afficher les campagnes
+//////////////////////////////////////////////////////////////////////////
+app.controller('CampagnesController', ['$scope', 'apiService', function ($scope, apiService) {
 
     $scope.campagneList = [];
 
+    // Récupérer les campagnes de l'utilisateur
     apiService.getCampagneList().then(
         function (res) {
             $scope.campagneList = res.data.campaigns;
         },
         function (err) {
-            // Do nothing for now
+            // Do nothing
         }
     );
 
-    // Gestion des filtres de campagnes //
+    // Gestion des filtres de campagnes
     $scope.filters = {
         datedescend: {
             property: '-dateCreated',
@@ -133,152 +142,160 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         }
     };
 
+    // Par défaut, trier par date descendante
     $scope.filter = $scope.filters.datedescend;
 
+    // Changer le filtre sélectionné
     $scope.setFilter = function (newFilter) {
         $scope.filter = newFilter;
     };
 
-}]).controller('CampagneCreateController', ['$scope', '$q', 'apiService', function ($scope, $q, apiService) {
+}]);
 
-    // Template de base d'une campagne
-    $scope.campagne = {
-        name: '',
-        redirectUrl: '',
-        profileIds: [],
-        startDate: '',
-        endDate: '',
-        budget: 0,
-        imgHorizontal: '',
-        imgVertical: '',
-        imgMobile: '',
-    };
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour créer une nouvelle campagne
+//////////////////////////////////////////////////////////////////////////
+app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', function ($scope, $q, apiService) {
 
     $scope.profilList = [];
+    $scope.campagne = getObjetTemplateForCampagne();
+    $scope.imgLocal = {hor: '', ver: '', mob: ''};
 
-    $scope.imgLocal = {
-        hor: '',
-        ver: '',
-        mob: ''
-    };
+    // Récupérer les profils de l'utilisateur
+    apiService.getProfilList().then(
+        function (res) {
+            $scope.profilList = res.data.profiles;
+            // TODO Rajouter BL lorsque l'utilisateur n'a pas encore de profils
+        },
+        function (err) {
+            // Do nothing
+        }
+    );
 
     $scope.create = function () {
 
+        // Annuler s'il reste une image à sélectionner
         if (!$scope.imgLocal.hor || !$scope.imgLocal.ver || !$scope.imgLocal.mob) {
-            swal({text: 'Veuillez sélectionner une image pour chaque bannière', icon: "error"});
+            swal({text: 'Veuillez sélectionner une image pour chaque bannière', icon: 'error'});
             return;
         }
 
-        $("#create-button").addClass('disabled');
+        // Afficher le loading pendant la tentative de création
+        $('#create-campagne-loading').css('display', 'flex');
 
-        $q.all([
-            apiService.uploadImgur($("#horizontal-file")[0]),
-            apiService.uploadImgur($("#vertical-file")[0]),
-            apiService.uploadImgur($("#mobile-file")[0])
-        ]).then(data => {
-            $scope.campagne.imgHorizontal = data[0].data.link;
-            $scope.campagne.imgVertical = data[1].data.link;
-            $scope.campagne.imgMobile = data[2].data.link;
+        let imgurPromises = [];
+
+        // Ne pas uploader une image si elle a déjà été uploadée
+        if (!$scope.campagne.imgHorizontal) imgurPromises.push(apiService.uploadToImgur($('#horizontal-file')[0]));
+        if (!$scope.campagne.imgVertical) imgurPromises.push(apiService.uploadToImgur($('#vertical-file')[0]));
+        if (!$scope.campagne.imgMobile) imgurPromises.push(apiService.uploadToImgur($('#mobile-file')[0]));
+
+        // Uploader les images sur imgur
+        $q.all(imgurPromises).then((data) => {
+
+            // Mettre à jour les liens des images pour la campagne
+            let index = 0;
+            if (!$scope.campagne.imgHorizontal) $scope.campagne.imgHorizontal = data[index++].data.link;
+            if (!$scope.campagne.imgVertical) $scope.campagne.imgVertical = data[index++].data.link;
+            if (!$scope.campagne.imgMobile) $scope.campagne.imgMobile = data[index].data.link;
 
             // Aller chercher les ID des profils manuellement
-            $scope.campagne.profileIds = $("#profildrop").val().map(id => parseInt(id));
+            $scope.campagne.profileIds = $('#profildrop').val().map(id => parseInt(id));
 
+            // Créer la campagne et voir si tous les champs sont valides
             apiService.createCampagne($scope.campagne).then(
                 function (res) {
-                    swal({text: res.data.message, icon: "success"})
+                    $('#create-campagne-loading').css('display', 'none');
+                    swal({text: res.data.message, icon: 'success'})
                         .then(() => {
                             $scope.$parent.setCurrentPage('campagnes');
                             $scope.$parent.$apply();
                         });
                 },
                 function (err) {
-                    $("#create-button").removeClass('disabled');
-                    swal({text: err.data.message, icon: "error"});
+                    $('#create-campagne-loading').css('display', 'none');
+                    swal({text: err.data.message, icon: 'error'});
                 }
             );
         });
 
     };
 
-    // Afficher les images selectionnées par les file input
-    $("#horizontal-file").change(function () {
-        readURL(this, $("#horizontal-img"));
+    // Afficher dynamiquement les images selectionnées par les FileInput
+    $('#horizontal-file').change(function () {
+        // Invalider le lien vers l'image horizontale pour qu'elle soit uploadée
+        $scope.campagne.imgHorizontal = '';
+        readURL(this, $('#horizontal-img'));
     });
 
-    $("#vertical-file").change(function () {
-        readURL(this, $("#vertical-img"));
+    $('#vertical-file').change(function () {
+        // Invalider le lien vers l'image verticale pour qu'elle soit uploadée
+        $scope.campagne.imgVertical = '';
+        readURL(this, $('#vertical-img'));
     });
 
-    $("#mobile-file").change(function () {
-        readURL(this, $("#mobile-img"));
+    $('#mobile-file').change(function () {
+        // Invalider le lien vers l'image mobile pour qu'elle soit uploadée
+        $scope.campagne.imgMobile = '';
+        readURL(this, $('#mobile-img'));
     });
 
-    init();
+}]);
 
-    function init() {
-        apiService.getProfilList().then(
-            function (res) {
-                $scope.profilList = res.data.profiles;
-            },
-            function (err) {
-                // Do nothing for now
-            }
-        );
-    }
-
-}]).controller('CampagneModifyController', ['$scope', '$q', 'apiService', function ($scope, $q, apiService) {
-
-    // Template de base d'une campagne
-    $scope.campagne = {
-        campaignId: -1,
-        name: '',
-        redirectUrl: '',
-        profileIds: [],
-        startDate: '',
-        endDate: '',
-        budget: 0,
-        imgHorizontal: '',
-        imgVertical: '',
-        imgMobile: '',
-    };
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour modifier une campagne
+//////////////////////////////////////////////////////////////////////////
+app.controller('CampagneModifyController', ['$scope', '$q', 'apiService', function ($scope, $q, apiService) {
 
     $scope.profilList = [];
-
-    $scope.imgLocal = {
-        hor: '',
-        ver: '',
-        mob: ''
-    };
+    $scope.campagne = getObjetTemplateForCampagne();
+    $scope.imgLocal = {hor: '', ver: '', mob: ''};
 
     $scope.modify = function () {
 
-        let imgur = [];
-        if ($scope.imgLocal.hor) imgur.push(apiService.uploadImgur($("#horizontal-file")[0]));
-        if ($scope.imgLocal.ver) imgur.push(apiService.uploadImgur($("#vertical-file")[0]));
-        if ($scope.imgLocal.mob) imgur.push(apiService.uploadImgur($("#mobile-file")[0]));
+        // Afficher le loading pendant la tentative de création
+        $('#modify-campagne-loading').css('display', 'flex');
 
-        $("#modify-button").addClass('disabled');
+        let imgurPromises = [];
 
-        $q.all(imgur).then(data => {
+        // Ne pas uploader une image si elle a déjà été uploadée
+        if ($scope.imgLocal.hor) imgurPromises.push(apiService.uploadToImgur($('#horizontal-file')[0]));
+        if ($scope.imgLocal.ver) imgurPromises.push(apiService.uploadToImgur($('#vertical-file')[0]));
+        if ($scope.imgLocal.mob) imgurPromises.push(apiService.uploadToImgur($('#mobile-file')[0]));
+
+        // Uploader les images sur imgur
+        $q.all(imgurPromises).then((data) => {
+
+            // Mettre à jour les liens des images pour la campagne
             let index = 0;
-            if ($scope.imgLocal.hor) $scope.campagne.imgHorizontal = data[index++].data.link;
-            if ($scope.imgLocal.ver) $scope.campagne.imgVertical = data[index++].data.link;
-            if ($scope.imgLocal.mob) $scope.campagne.imgMobile = data[index].data.link;
+            if ($scope.imgLocal.hor) {
+                $scope.imgLocal.hor = '';
+                $scope.campagne.imgHorizontal = data[index++].data.link;
+            }
+            if ($scope.imgLocal.ver) {
+                $scope.imgLocal.ver = '';
+                $scope.campagne.imgVertical = data[index++].data.link;
+            }
+            if ($scope.imgLocal.mob) {
+                $scope.imgLocal.mob = '';
+                $scope.campagne.imgMobile = data[index].data.link;
+            }
 
             // Aller chercher les ID des profils manuellement
-            $scope.campagne.profileIds = $("#profildrop").val().map(id => parseInt(id));
+            $scope.campagne.profileIds = $('#profildrop').val().map(id => parseInt(id));
 
             apiService.modifyCampagne($scope.campagne.id, $scope.campagne).then(
                 function (res) {
-                    swal({text: res.data.message, icon: "success"})
+                    $('#modify-campagne-loading').css('display', 'none');
+                    swal({text: res.data.message, icon: 'success'})
                         .then(() => {
                             $scope.$parent.setCurrentPage('campagnes');
                             $scope.$parent.$apply();
                         });
                 },
                 function (err) {
-                    $("#modify-button").removeClass('disabled');
-                    swal({text: err.data.message, icon: "error"});
+                    $('#modify-campagne-loading').css('display', 'none');
+                    swal({text: err.data.message, icon: 'error'});
                 }
             );
         });
@@ -287,23 +304,23 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
     $scope.delete = function () {
 
         swal({
-            text: "Êtes-vous certain de vouloir supprimer cette campagne?",
-            icon: "warning",
-            buttons: ["Annuler", "Supprimer définitivement"]
+            text: 'Êtes-vous certain de vouloir supprimer cette campagne?',
+            icon: 'warning',
+            buttons: ['Annuler', 'Supprimer définitivement']
         }).then(
             function (val) {
                 if (!val)
                     return;
                 apiService.deleteCampagne($scope.campagne.id).then(
                     function (res) {
-                        swal({text: res.data.message, icon: "success"})
+                        swal({text: res.data.message, icon: 'success'})
                             .then(() => {
                                 $scope.$parent.setCurrentPage('campagnes');
                                 $scope.$parent.$apply();
                             });
                     },
                     function (err) {
-                        swal({text: err.data.message, icon: "error"});
+                        swal({text: err.data.message, icon: 'error'});
                     }
                 );
             }
@@ -317,15 +334,18 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         if (!$scope.$parent.selectedId)
             return;
 
+        // Récupérer les profils de l'utilisateur
         apiService.getProfilList().then(
             function (res) {
                 $scope.profilList = res.data.profiles;
+                // TODO Rajouter BL lorsque l'utilisateur n'a pas encore de profils
             },
             function (err) {
-                // Do nothing for now
+                // Do nothing
             }
         );
 
+        // Récupérer les données de la campagne
         apiService.getCampagne($scope.$parent.selectedId).then(
             function (res) {
                 $scope.campagne = res.data;
@@ -333,40 +353,46 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
 
                 // ng-selected not working with materialize dropdown
                 // select by hand
-                $("#profildrop option").prop("selected", false);
+                $('#profildrop option').prop('selected', false);
                 for (let i = 0; i < $scope.campagne.profileIds.length; i++) {
                     $('#profildrop option[value=' + $scope.campagne.profileIds[i] + ']').prop('selected', true);
                 }
                 // re-bind the generated select
-                $("#profildrop").material_select();
+                $('#profildrop').material_select();
 
                 // select dates manually
-                $("#datedebut").val($scope.campagne.startDate).pickadate();
-                $("#datefin").val($scope.campagne.endDate).pickadate();
+                $('#datedebut').val($scope.campagne.startDate).pickadate();
+                $('#datefin').val($scope.campagne.endDate).pickadate();
             },
             function (err) {
-                console.error(err.data.message);
+                swal({text: err.data.message, icon: 'error'});
             }
         );
     }
 
-    // Afficher les images selectionnées par les file input
-    $("#horizontal-file").change(function () {
-        readURL(this, $("#horizontal-img"));
+    // Afficher dynamiquement les images selectionnées par les FileInput
+    $('#horizontal-file').change(function () {
+        readURL(this, $('#horizontal-img'));
     });
 
-    $("#vertical-file").change(function () {
-        readURL(this, $("#vertical-img"));
+    $('#vertical-file').change(function () {
+        readURL(this, $('#vertical-img'));
     });
 
-    $("#mobile-file").change(function () {
-        readURL(this, $("#mobile-img"));
+    $('#mobile-file').change(function () {
+        readURL(this, $('#mobile-img'));
     });
 
-}]).controller('ProfilsController', ['$scope', 'apiService', function ($scope, apiService) {
+}]);
+
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour afficher les profils
+//////////////////////////////////////////////////////////////////////////
+app.controller('ProfilsController', ['$scope', 'apiService', function ($scope, apiService) {
 
     $scope.profilList = [];
 
+    // Récupérer les profils de l'utilisateur
     apiService.getProfilList().then(
         function (res) {
             $scope.profilList = res.data.profiles;
@@ -376,7 +402,7 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         }
     );
 
-    // Gestion des filtres de profils //
+    // Gestion des filtres de profils
     $scope.filters = {
         datedescend: {
             property: '-dateCreated',
@@ -396,24 +422,22 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         }
     };
 
+    // Par défaut, trier par date descendante
     $scope.filter = $scope.filters.datedescend;
 
+    // Changer le filtre sélectionné
     $scope.setFilter = function (newFilter) {
         $scope.filter = newFilter;
     };
 
-}]).controller('ProfilCreateController', ['$scope', 'apiService', function ($scope, apiService) {
+}]);
 
-    // Template de base d'un profil
-    $scope.profil = {
-        name: '',
-        description: '',
-        urls: [
-            {
-                val: ''
-            },
-        ]
-    };
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour créer un nouveau profil
+//////////////////////////////////////////////////////////////////////////
+app.controller('ProfilCreateController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.profil = getObjectTemplateForProfil();
 
     $scope.addUrl = function () {
         $scope.profil.urls.push({val: ''});
@@ -434,30 +458,26 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
 
         apiService.createProfil(data).then(
             function (res) {
-                swal({text: res.data.message, icon: "success"})
+                swal({text: res.data.message, icon: 'success'})
                     .then(() => {
                         $scope.$parent.setCurrentPage('profils');
                         $scope.$parent.$apply();
                     });
             },
             function (err) {
-                swal({text: err.data.message, icon: "error"});
+                swal({text: err.data.message, icon: 'error'});
             }
         );
     };
 
-}]).controller('ProfilModifyController', ['$scope', 'apiService', function ($scope, apiService) {
+}]);
 
-    // Template de base d'un profil
-    $scope.profil = {
-        name: '',
-        description: '',
-        urls: [
-            {
-                val: ''
-            },
-        ]
-    };
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour modifier un profil
+//////////////////////////////////////////////////////////////////////////
+app.controller('ProfilModifyController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.profil = getObjectTemplateForProfil();
 
     $scope.modify = function () {
 
@@ -469,14 +489,14 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
 
         apiService.modifyProfil($scope.profil.id, data).then(
             function (res) {
-                swal({text: res.data.message, icon: "success"})
+                swal({text: res.data.message, icon: 'success'})
                     .then(() => {
                         $scope.$parent.setCurrentPage('profils');
                         $scope.$parent.$apply();
                     });
             },
             function (err) {
-                swal({text: err.data.message, icon: "error"});
+                swal({text: err.data.message, icon: 'error'});
             }
         );
 
@@ -485,23 +505,23 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
     $scope.delete = function () {
 
         swal({
-            text: "Êtes-vous certain de vouloir supprimer ce profil?",
-            icon: "warning",
-            buttons: ["Annuler", "Supprimer définitivement"]
+            text: 'Êtes-vous certain de vouloir supprimer ce profil?',
+            icon: 'warning',
+            buttons: ['Annuler', 'Supprimer définitivement']
         }).then(
             function (val) {
                 if (!val)
                     return;
                 apiService.deleteProfil($scope.profil.id).then(
                     function (res) {
-                        swal({text: res.data.message, icon: "success"})
+                        swal({text: res.data.message, icon: 'success'})
                             .then(() => {
                                 $scope.$parent.setCurrentPage('profils');
                                 $scope.$parent.$apply();
                             });
                     },
                     function (err) {
-                        swal({text: err.data.message, icon: "error"});
+                        swal({text: err.data.message, icon: 'error'});
                     }
                 );
             }
@@ -524,6 +544,7 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
         if (!$scope.$parent.selectedId)
             return;
 
+        // Récupérer les données du profil
         apiService.getProfil($scope.$parent.selectedId).then(
             function (res) {
                 $scope.profil = res.data;
@@ -539,43 +560,32 @@ app.controller('PubliciteController', ['$scope', 'apiService', 'authService', fu
     }
 }]);
 
+//////////////////////////////////////////////////////////////////////////
+// UTILITIES
+//////////////////////////////////////////////////////////////////////////
+function getObjectTemplateForProfil() {
+    return {
+        name: '',
+        description: '',
+        urls: [
+            {
+                val: ''
+            },
+        ]
+    };
+}
 
-/*
-$scope.campagnes = [
-    {
-        id: 10001,
-        name: "Tipico",
-        redirectUrl: "https://www.tipico.com",
-        profileids: [1, 3],
-        startDate: "2018-01-01",
-        endDate: "2018-01-31",
-        budget: 5000,
-        banner: {
-            horizontal: "continental-horizontal.gif",
-            vertical: "honda-vertical.gif",
-            mobile: "mobile-tipico.gif"
-        },
-        horizontalImg: "./test/continental-horizontal.gif",
-        verticalImg: "./test/honda-vertical.gif",
-        mobileImg: "./test/mobile-tipico.gif"
-    },
-    {
-        id: 10002,
-        nom: "Cartoon Network",
-        url: "https://www.cartoonnetwork.ca/",
-        profileids: [2],
-        datedebut: "2018-01-01",
-        datefin: "2018-01-31",
-        budget: 7000,
-        banner: {
-            horizontal: "",
-            vertical: "",
-            mobile: "mobile-cartoonnetworks.png"
-        },
-        bannerurl: {
-            horizontal: "",
-            vertical: "",
-            mobile: "./test/mobile-cartoonnetworks.png"
-        }
-    }
-];*/
+function getObjetTemplateForCampagne() {
+    return {
+        campaignId: -1,
+        name: '',
+        redirectUrl: '',
+        profileIds: [],
+        startDate: '',
+        endDate: '',
+        budget: 0,
+        imgHorizontal: '',
+        imgVertical: '',
+        imgMobile: '',
+    };
+}

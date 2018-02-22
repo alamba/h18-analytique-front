@@ -13,20 +13,20 @@
  */
 app.factory('authInterceptorService', ['$q', '$injector', 'localStorageService', 'AUTH_KEY', function ($q, $injector, localStorageService, AUTH_KEY) {
 
-    let _request = function (config) {
+    let _request = function (request) {
 
-        config.headers = config.headers || {};
+        request.headers = request.headers || {};
 
-        if (config.url === 'https://api.imgur.com/3/image.json')
-            return config;
+        if (request.url === 'https://api.imgur.com/3/image.json')
+            return request;
 
         // Insert "Token" header in every outgoing http request
         let authData = localStorageService.get(AUTH_KEY);
         if (authData) {
-            config.headers.Token = authData.token;
+            request.headers.Token = authData.token;
         }
 
-        return config;
+        return request;
     };
 
     let _responseError = function (rejection) {
@@ -40,8 +40,8 @@ app.factory('authInterceptorService', ['$q', '$injector', 'localStorageService',
     };
 
     return {
-        request: _request,
-        responseError: _responseError
+        'request': _request,
+        'responseError': _responseError
     };
 
 }]);

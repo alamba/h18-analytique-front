@@ -4,19 +4,13 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
 
-    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="css/squidsquads.css"/>
 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="img/squid.ico">
     <title>Création d'un compte</title>
-
-    <style>
-        .card .card-content p {
-            margin: 10px 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -31,7 +25,7 @@
                     <div class="card-content no-padding-bot">
                         <span class="card-title">Création d'un compte</span>
                         <div class="row no-margin-bot">
-                            <form class="col s12">
+                            <form class="col s12 p-margin-y">
                                 <p>Quel est votre objectif ?</p>
                                 <p>
                                     <input class="with-gap" name="group1" type="radio" id="adminpub" checked="checked" ng-model="account.adminType" ng-value="ADMIN_TYPE.PUB"/>
@@ -86,16 +80,16 @@
 
 <footer class="page-footer" footer-template></footer>
 
-<script type="text/javascript" src="js/lib/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/lib/angular.min.js"></script>
-<script type="text/javascript" src="js/lib/angular-animate.min.js"></script>
-<script type="text/javascript" src="js/lib/angular-local-storage.min.js"></script>
-<script type="text/javascript" src="js/lib/materialize.min.js"></script>
-<script type="text/javascript" src="js/lib/sweetalert.min.js"></script>
-<script type="text/javascript" src="js/squidsquads.js"></script>
-<script type="text/javascript" src="js/authInterceptorService.js"></script>
-<script type="text/javascript" src="js/authService.js"></script>
-<script type="text/javascript" src="js/apiService.js"></script>
-<script type="text/javascript" src="js/compteCreation.js"></script>
+<script src="js/lib/jquery-3.2.1.min.js"></script>
+<script src="js/lib/angular.min.js"></script>
+<script src="js/lib/angular-animate.min.js"></script>
+<script src="js/lib/angular-local-storage.min.js"></script>
+<script src="js/lib/materialize.min.js"></script>
+<script src="js/lib/sweetalert.min.js"></script>
+<script src="js/squidsquads.js"></script>
+<script src="js/authInterceptorService.js"></script>
+<script src="js/authService.js"></script>
+<script src="js/apiService.js"></script>
+<script src="js/compteCreation.js"></script>
 </body>
 </html>

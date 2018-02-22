@@ -25,4 +25,10 @@ app.controller('ConnexionController', ['$scope', 'authService', function ($scope
         );
     };
 
+    $scope.keyPressed = function ($event) {
+        if ($event.keyCode === 13) {
+            $scope.connexion();
+        }
+    };
+
 }]);
