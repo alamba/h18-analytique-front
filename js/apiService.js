@@ -137,6 +137,10 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         return postAPI('/account/create', data);
     };
 
+    let _getAccountBanners = function () {
+        return getAPI('/account/banner');
+    };
+
     // Campagnes //
     let _createCampagne = function (data) {
         return postAPI('/campagne', data);
@@ -216,6 +220,7 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         clearCache: _clearCache,
         // Comptes //
         createAccount: _createAccount,
+        getAccountBanners: _getAccountBanners,
         // Campagnes //
         createCampagne: _createCampagne,
         deleteCampagne: _deleteCampagne,
