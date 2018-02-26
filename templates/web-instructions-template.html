@@ -1,1 +1,60 @@
-<h4>Instructions (à venir)</h4>
+<div ng-controller="InstructionsController">
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card z-depth-3">
+                <div class="card-content">
+                    <span class="card-title">Intégration de l'outil d'analytique et de publicité à votre site Web</span>
+                    <blockquote>
+                        Pour être en mesure de vous présenter des statistiques complètes et pertinentes,
+                        vous devez effectuer les étapes suivantes pour chacune de vos pages HTML.
+                    </blockquote>
+                    <div class="section">
+                        <h5 class="light">Ajouter le module d'analytique</h5>
+                        <blockquote>
+                            Le module d'analytique est un fichier JavaScript qui nous permet de faire le suivi de vos
+                            visiteurs et de leurs afficher des publicités ciblées. Ajouter la ligne suivante à la toute
+                            fin de votre <span class="instructions">&lt;body&gt;</span>.
+                        </blockquote>
+<pre class="instructions">
+&lt;script src="https://s3.amazonaws.com/www.squidsquads.site/js/analytique.js"&gt;&lt;/script&gt;
+</pre>
+                    </div>
+                    <div class="section">
+                        <h5 class="light">Ajouter vos identifiants personnalisés</h5>
+                        <blockquote>
+                            Grâce à ces identifiants, nous sommes en mesure d'identifier votre site parmi tous les
+                            autres. Il suffit de rajouter les 4 balises <span class="instructions">&lt;meta&gt;</span>
+                            suivantes dans le <span class="instructions">&lt;head&gt;</span> de vos pages HTML.
+                        </blockquote>
+<pre class="instructions">
+&lt;meta name="squidsquads-user-id" content="{{userId}}"&gt;
+&lt;meta name="squidsquads-banner-hor" content="{{horId}}"&gt;
+&lt;meta name="squidsquads-banner-ver" content="{{verId}}"&gt;
+&lt;meta name="squidsquads-banner-mob" content="{{mobId}}"&gt;
+</pre>
+                    </div>
+                    <div class="section">
+                        <h5 class="light">Afficher des publicités</h5>
+                        <blockquote>
+                            Si vous souhaitez afficher des publicités, il suffit d'ajouter des balises
+                            <span class="instructions">&lt;img&gt;</span> de la même façon qu'elles sont présentées
+                            ci-dessous. Vous pouvez afficher une, deux ou trois publicités de différentes tailles.
+                        </blockquote>
+                        <blockquote>
+                            Vous ne pouvez pas utiliser plus d'une fois un même type de publicité par page (i.e. au
+                            maximum une publicité horizontale, verticale et mobile).
+                        </blockquote>
+                        <blockquote>
+                            Le standard des tailles des publicités est disponible <a href="https://github.com/gti525/h18-analytique-front/wiki/Standard-des-banni%C3%A8res-publicitaires" target="_blank">ici</a>.
+                        </blockquote>
+<pre class="instructions">
+&lt;img id="squidsquads-img-hor" src="" alt=""/&gt;
+&lt;img id="squidsquads-img-ver" src="" alt=""/&gt;
+&lt;img id="squidsquads-img-mob" src="" alt=""/&gt;
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

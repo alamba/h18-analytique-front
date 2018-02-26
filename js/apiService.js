@@ -7,11 +7,11 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     //////////////////////////////////////////////////////////////////////////
     // HTTP
     //////////////////////////////////////////////////////////////////////////
-    function deferredGET(endpoint) {
+    function deferredMETHOD(httpPromise) {
 
         let deferred = $q.defer();
 
-        $http.get(SERVER_URL + endpoint).then(function (response) {
+        httpPromise.then(function (response) {
             // Success
             deferred.resolve(response);
         }, function (err) {
@@ -20,55 +20,23 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         });
 
         return deferred.promise;
+    }
+
+    function deferredGET(endpoint) {
+        return deferredMETHOD($http.get(SERVER_URL + endpoint));
     }
 
     function deferredPOST(endpoint, data) {
-
-        let deferred = $q.defer();
-
-        $http.post(SERVER_URL + endpoint, data).then(function (response) {
-            // Success
-            deferred.resolve(response);
-        }, function (err) {
-            // Error
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
+        return deferredMETHOD($http.post(SERVER_URL + endpoint, data));
     }
-
 
     function deferredPUT(endpoint, data) {
-
-        let deferred = $q.defer();
-
-        $http.put(SERVER_URL + endpoint, data).then(function (response) {
-            // Success
-            deferred.resolve(response);
-        }, function (err) {
-            // Error
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
+        return deferredMETHOD($http.put(SERVER_URL + endpoint, data));
     }
 
-
-    function deferredDELETE(endpoint, data) {
-
-        let deferred = $q.defer();
-
-        $http.delete(SERVER_URL + endpoint).then(function (response) {
-            // Success
-            deferred.resolve(response);
-        }, function (err) {
-            // Error
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
+    function deferredDELETE(endpoint) {
+        return deferredMETHOD($http.delete(SERVER_URL + endpoint));
     }
-
 
     //////////////////////////////////////////////////////////////////////////
     // HTTP + API + CACHE
@@ -125,7 +93,6 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     function getEndpointCache(endpoint) {
 
         let key = formatEndpoint(endpoint);
-
         let cache = localStorageService.get(key);
 
         if (cache != null) {
@@ -138,10 +105,9 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
 
     function setEndpointCache(endpoint, result) {
 
-        let key = formatEndpoint(endpoint);
-
         result.cacheExpire = moment().add(5, 'minutes');
 
+        let key = formatEndpoint(endpoint);
         let cache = JSON.stringify(result);
 
         localStorageService.set(key, cache);
@@ -169,6 +135,10 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     // Comptes //
     let _createAccount = function (data) {
         return postAPI('/account/create', data);
+    };
+
+    let _getAccountBanners = function () {
+        return getAPI('/account/banner');
     };
 
     // Campagnes //
@@ -217,7 +187,7 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     // IMGUR
     //////////////////////////////////////////////////////////////////////////
 
-    let _uploadImgur = function (input) {
+    let _uploadToImgur = function (input) {
 
         let deferred = $q.defer();
 
@@ -250,6 +220,7 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         clearCache: _clearCache,
         // Comptes //
         createAccount: _createAccount,
+        getAccountBanners: _getAccountBanners,
         // Campagnes //
         createCampagne: _createCampagne,
         deleteCampagne: _deleteCampagne,
@@ -262,7 +233,8 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         getProfil: _getProfil,
         getProfilList: _getProfilList,
         modifyProfil: _modifyProfil,
-        uploadImgur: _uploadImgur
+        // IMGUR //
+        uploadToImgur: _uploadToImgur
     };
 
 }]);

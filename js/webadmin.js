@@ -20,13 +20,20 @@ app.directive('webParametres', function () {
 });
 
 //////////////////////////////////////////////////////////////////////////
-// CONTROLLLERS
+// Contrôleur global pour la page WebAdmin
 //////////////////////////////////////////////////////////////////////////
-app.controller('WebAdminController', ['$scope', 'authService', function ($scope, authService) {
+app.controller('WebAdminController', ['$scope', 'apiService', 'authService', function ($scope, apiService, authService) {
 
+    // Vider la cache quand ce contrôleur charge
+    apiService.clearCache();
+
+    // Afficher le nom de l'utilisateur
     $scope.displayName = authService.getDisplayName();
 
-    // Gestion des pages //
+    // Lien pour se déconnecter
+    $scope.logout = () => authService.logout();
+
+    // Gestion des pages
     const pages = {
         accueil: 'accueil',
         redevances: 'redevances',
@@ -34,13 +41,35 @@ app.controller('WebAdminController', ['$scope', 'authService', function ($scope,
         parametres: 'parametres'
     };
 
+    // Par défaut, afficher la page d'accueil
     $scope.currentPage = pages.accueil;
 
+    // Changer la template affichée
     $scope.setCurrentPage = function (page) {
         $scope.currentPage = page;
         fixForAnimationsGettingStuck();
     };
 
-    $scope.logout = () => authService.logout();
+}]);
+
+app.controller('InstructionsController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.userId = '';
+    $scope.horId = '';
+    $scope.verId = '';
+    $scope.mobId = '';
+
+    // Récupérer les identifiants de l'utilisateur
+    apiService.getAccountBanners().then(
+        function (res) {
+            $scope.userId = res.data.webSiteAdminID;
+            $scope.horId = res.data.horID;
+            $scope.verId = res.data.verID;
+            $scope.mobId = res.data.mobID;
+        },
+        function (err) {
+            // Do nothing
+        }
+    );
 
 }]);

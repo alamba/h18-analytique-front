@@ -47,3 +47,20 @@
         transform: translate(-50%, 10%);
     }
 }
+
+/* Instructions */
+pre.instructions {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    white-space: pre-wrap;
+}
+
+span.instructions {
+    font-family: monospace, monospace;
+    font-size: 1em;
+    padding: 2px 4px;
+    background-color: #f9f9f9;
+    border-radius: 2px;
+}

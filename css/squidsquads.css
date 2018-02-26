@@ -55,6 +55,10 @@ main {
     margin-bottom: 0 !important;
 }
 
+.p-margin-y > p {
+    margin: 10px 0 !important;
+}
+
 @media only screen and (max-width: 992px) {
     .margin-top-on-med-and-down {
         margin-top: 20px;
@@ -62,7 +66,7 @@ main {
 }
 
 .dark-grey-label {
-    color: #000000de !important;
+    color: rgba(0, 0, 0, 0.87) !important;
 }
 
 a.no-style:link, a.no-style:visited {
@@ -74,6 +78,12 @@ a.no-style:link, a.no-style:visited {
 @media only screen and (min-width: 601px) {
     .w-50 {
         width: 50%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .shadow-clearfix {
+        margin: 0 -15px;
     }
 }
 
