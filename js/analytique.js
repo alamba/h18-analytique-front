@@ -5,6 +5,8 @@
  */
 document.addEventListener('DOMContentLoaded', function (event) {
 
+    const SQUIDSQUADS_SERVER = "https://squidsquads-backend-dev.herokuapp.com";
+
     // Start sequence
     initAnalytics();
 
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     function trackVisit(userId) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/visit?userid=' + userId, true);
+        xhr.open('GET', SQUIDSQUADS_SERVER + '/visit?userid=' + userId, true);
         xhr.withCredentials = true;
 
         xhr.onload = function () {
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     function createCookie(userId) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8080/visit', true);
+        xhr.open('POST', SQUIDSQUADS_SERVER + '/visit', true);
         xhr.withCredentials = true;
 
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -130,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     function getAndDisplayPublicity(bannerId, img) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/banner/' + bannerId, true);
+        xhr.open('GET', SQUIDSQUADS_SERVER + '/banner/' + bannerId, true);
         xhr.withCredentials = true;
 
         xhr.onreadystatechange = function () {
