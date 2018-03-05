@@ -134,7 +134,7 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
 
     // Comptes //
     let _createAccount = function (data) {
-        return postAPI('/account/create', data);
+        return postAPI('/account', data);
     };
 
     let _getAccountBanners = function () {
