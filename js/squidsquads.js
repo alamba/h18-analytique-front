@@ -2,21 +2,20 @@
  * @file Contient le bootstrap du module Angular et des fonctions globales
  */
 
-
 //////////////////////////////////////////////////////////////////////////
-// AngularJS CONFIG
+// AngularJS bootstrap
 //////////////////////////////////////////////////////////////////////////
 var app = angular.module('squidApp', ['ngAnimate', 'LocalStorageModule']);
 
 //////////////////////////////////////////////////////////////////////////
-// CONSTANTS
+// Constantes de l'application
 //////////////////////////////////////////////////////////////////////////
 app.constant('SERVER_URL', 'https://squidsquads-backend-dev.herokuapp.com')
     .constant('AUTH_KEY', 'authorizationSquidSquads')
     .constant('ADMIN_TYPE', {WEB: 'WEB', PUB: 'PUB'});
 
 //////////////////////////////////////////////////////////////////////////
-// CONFIG
+// Configuration
 //////////////////////////////////////////////////////////////////////////
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
@@ -28,7 +27,7 @@ app.run(['authService', function (authService) {
 }]);
 
 //////////////////////////////////////////////////////////////////////////
-// DIRECTIVES / TEMPLATES
+// Directives / Templates
 //////////////////////////////////////////////////////////////////////////
 app.directive('navNotConnected', function () {
     return {
@@ -61,7 +60,7 @@ app.directive('navNotConnected', function () {
 });
 
 //////////////////////////////////////////////////////////////////////////
-// jQuery / GLOBAL FUNCTIONS
+// jQuery / Fonctions globales
 //////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     prepMaterializeCss();
@@ -115,7 +114,9 @@ function readURL(input, img) {
 }
 
 function fixForAnimationsGettingStuck() {
+
     $('.button-collapse').sideNav('hide');
+
     setTimeout(function () {
         $('.animated-page').each(function () {
             $(this).removeClass('ng-animate ng-enter ng-enter-active')

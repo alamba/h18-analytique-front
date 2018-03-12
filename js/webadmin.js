@@ -7,7 +7,10 @@
 //////////////////////////////////////////////////////////////////////////
 app.directive('webParametres', function () {
     return {
-        templateUrl: './templates/web-parametres-template.html'
+        templateUrl: './templates/web-parametres-template.html',
+        link: function () {
+            prepMaterializeCss();
+        }
     };
 }).directive('webRedevances', function () {
     return {

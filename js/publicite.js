@@ -3,7 +3,7 @@
  */
 
 //////////////////////////////////////////////////////////////////////////
-// DIRECTIVES / TEMPLATES
+// Directives / Templates
 //////////////////////////////////////////////////////////////////////////
 app.directive('pubAccueil', function () {
     return {
@@ -11,7 +11,10 @@ app.directive('pubAccueil', function () {
     };
 }).directive('pubParametres', function () {
     return {
-        templateUrl: './templates/pub-parametres-template.html'
+        templateUrl: './templates/pub-parametres-template.html',
+        link: function () {
+            prepMaterializeCss();
+        }
     };
 }).directive('pubCampagnes', function () {
     return {
@@ -61,6 +64,14 @@ app.directive('pubAccueil', function () {
             // Donner du temps au digest cycle d'Angular
             setTimeout(function () {
                 prepMaterializeCss()
+            }, 200);
+        }
+    };
+}).directive('readyTooltips', function () {
+    return function (scope, element, attrs) {
+        if (scope.$last) {
+            setTimeout(function () {
+                $('.tooltipped').tooltip({delay: 50})
             }, 200);
         }
     };

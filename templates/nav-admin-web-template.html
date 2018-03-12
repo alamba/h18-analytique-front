@@ -17,14 +17,22 @@
             <li ng-class="{'active' : currentPage == 'accueil'}"><a ng-click="setCurrentPage('accueil')">Accueil</a></li>
             <li ng-class="{'active' : currentPage == 'redevances'}"><a ng-click="setCurrentPage('redevances')">Redevances</a></li>
             <li ng-class="{'active' : currentPage == 'instructions'}"><a ng-click="setCurrentPage('instructions')">Instructions</a></li>
-            <li ng-class="{'active' : currentPage == 'parametres'}"><a class="dropdown-button" href="#!" data-activates="dropdown-us">{{displayName}}<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li ng-class="{'active' : currentPage == 'parametres'}">
+                <a class="dropdown-button" href="#!" data-activates="dropdown-us">
+                    <span class="display-inline-flex"><span class="display-name">{{displayName}}</span></span><i class="material-icons right">arrow_drop_down</i>
+                </a>
+            </li>
         </ul>
 
         <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
             <li ng-class="{'active' : currentPage == 'accueil'}"><a ng-click="setCurrentPage('accueil')">Accueil</a></li>
             <li ng-class="{'active' : currentPage == 'redevances'}"><a ng-click="setCurrentPage('redevances')">Redevances</a></li>
             <li ng-class="{'active' : currentPage == 'instructions'}"><a ng-click="setCurrentPage('instructions')">Instructions</a></li>
-            <li ng-class="{'active' : currentPage == 'parametre'}"><a class="dropdown-button" href="#!" data-activates="dropdown-us-mb">{{displayName}}<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li ng-class="{'active' : currentPage == 'parametres'}">
+                <a class="dropdown-button" href="#!" data-activates="dropdown-us-mb">
+                    <span class="display-inline-flex"><span class="display-name">{{displayName}}</span></span><i class="material-icons right">arrow_drop_down</i>
+                </a>
+            </li>
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>

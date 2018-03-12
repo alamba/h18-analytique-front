@@ -17,15 +17,25 @@ app.controller('CompteCreationController', ['$scope', 'ADMIN_TYPE', 'apiService'
 
     $scope.create = function () {
 
+        $('#create-account-loading').css('display', 'flex');
+
         apiService.createAccount($scope.account).then(
             function (res) {
+                $('#create-account-loading').css('display', 'none');
                 swal({text: res.data.message, icon: "success"})
                     .then(() => window.location.href = 'connexion.html');
             },
             function (err) {
-                swal({text: err.data.message, icon: "error"});
+                $('#create-account-loading').css('display', 'none');
+                if (err.data) {
+                    swal({text: err.data.message, icon: "error"});
+                }
             }
         );
+    };
+
+    $scope.readyTooltip = function () {
+        $('.tooltipped').tooltip({delay: 50});
     };
 
 }]);
