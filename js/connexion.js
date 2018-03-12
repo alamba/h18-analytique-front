@@ -20,7 +20,11 @@ app.controller('ConnexionController', ['$scope', 'authService', function ($scope
                 authService.redirectAccordingly();
             },
             function (err) {
-                $scope.message = err.data.message;
+                if (err.data) {
+                    $scope.message = err.data.message;
+                } else {
+                    $scope.message = 'Le serveur ne répond pas';
+                }
             }
         );
     };

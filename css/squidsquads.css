@@ -115,6 +115,22 @@ span.tooltipped {
     border-radius: 1.5rem;
 }
 
+span.tooltipped:hover {
+    cursor: help;
+    background: #323232;
+}
+
+.display-inline-flex {
+    display: inline-flex;
+}
+
+.display-name {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* Animations */
 .animated-page.ng-enter {
     transition: all ease 0.3s;

@@ -138,7 +138,7 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
     };
 
     let _getAccountBanners = function () {
-        return getAPI('/account/banner');
+        return getAPI('/account/banner', true);
     };
 
     // Campagnes //
@@ -181,6 +181,19 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
 
     let _deleteProfil = function (profilId) {
         return deleteAPI('/profil/' + profilId);
+    };
+
+    // Stats //
+    let _statsForBrowsers = function () {
+        return getAPI('/stats/browsertypes', true);
+    };
+
+    let _statsForVisits = function () {
+        return getAPI('/stats/visits', true);
+    };
+
+    let _statsForRoyalties = function () {
+        return getAPI('/stats/royalty', true);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -233,6 +246,10 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         getProfil: _getProfil,
         getProfilList: _getProfilList,
         modifyProfil: _modifyProfil,
+        // Stats //
+        statsForBrowsers: _statsForBrowsers,
+        statsForVisits: _statsForVisits,
+        statsForRoyalties: _statsForRoyalties,
         // IMGUR //
         uploadToImgur: _uploadToImgur
     };

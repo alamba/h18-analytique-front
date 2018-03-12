@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 l6 offset-l3">
+        <div class="col s12 xl8 offset-xl2">
             <div class="card z-depth-2">
                 <div class="card-content">
                     <span class="card-title">Modification d'un profil utilisateur</span>
@@ -27,6 +27,7 @@
                                 <div class="input-field col s11" ng-class="{'s12' : $index == 0}">
                                     <input id="url{{$index}}" type="text" class="validate" ng-model="url.val" placeholder="">
                                     <label for="url{{$index}}">URL {{$index + 1}}</label>
+                                    <span id="url{{$index}}-tt" class="tooltipped" data-position="top" data-tooltip="https://votre.site.web">?</span>
                                 </div>
                                 <div class="input-field col s1 center" ng-if="$index > 0">
                                     <a class="btn-flat waves-effect waves-light clear-row red-text" ng-click="removeUrl($index)"><i class="material-icons">clear</i></a>

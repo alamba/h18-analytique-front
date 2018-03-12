@@ -20,8 +20,23 @@
 <main>
     <div class="container container-pad-top" ng-controller="CompteCreationController">
         <div class="row">
-            <div class="col s12 m6 offset-m3">
+            <div class="col s12 xl8 offset-xl2">
                 <div class="card z-depth-3">
+                    <div id="create-account-loading" class="card-loading">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-content no-padding-bot">
                         <span class="card-title">Création d'un compte</span>
                         <div class="row no-margin-bot">
@@ -41,17 +56,18 @@
                                         <label for="email">Courriel</label>
                                     </div>
                                 </div>
-                                <div class="row animated-page" ng-if="account.adminType === ADMIN_TYPE.WEB">
+                                <div class="row animated-page" ng-if="account.adminType == ADMIN_TYPE.WEB" ng-init="readyTooltip()">
                                     <div class="input-field col s12">
                                         <input id="domain" type="url" class="validate" ng-model="account.domain">
                                         <label for="domain">Domaine de site web</label>
+                                        <span id="domain-tt" class="tooltipped" data-position="top" data-tooltip="https://votre.site.web">?</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <input id="bank" type="text" class="validate" ng-model="account.bank">
                                         <label for="bank">Numéro de compte de banque</label>
-                                        <span class="tooltipped" data-position="top" data-tooltip="BBB-CCCCC (ex: 000-12345)">?</span>
+                                        <span id="bank-tt" class="tooltipped" data-position="top" data-tooltip="BBB-CCCCC (ex: 000-12345)">?</span>
                                     </div>
                                 </div>
                                 <div class="row">

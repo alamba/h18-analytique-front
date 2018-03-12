@@ -17,6 +17,7 @@ app.factory('authInterceptorService', ['$q', '$injector', 'localStorageService',
 
         request.headers = request.headers || {};
 
+        // Imgur ne permet pas le header Token
         if (request.url === 'https://api.imgur.com/3/image.json')
             return request;
 
