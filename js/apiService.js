@@ -141,6 +141,14 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         return getAPI('/account/banner', true);
     };
 
+    let _getAccountInfo = function () {
+        return getAPI('/account', true);
+    };
+
+    let _resetAccountPassword = function (data) {
+        return postAPI('/account/password', data);
+    };
+
     // Campagnes //
     let _createCampagne = function (data) {
         return postAPI('/campagne', data);
@@ -234,6 +242,8 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         // Comptes //
         createAccount: _createAccount,
         getAccountBanners: _getAccountBanners,
+        getAccountInfo: _getAccountInfo,
+        resetPassword: _resetAccountPassword,
         // Campagnes //
         createCampagne: _createCampagne,
         deleteCampagne: _deleteCampagne,

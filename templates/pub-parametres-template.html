@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="PubParametresController">
     <div class="row">
         <div class="col s12 m4">
             <a class="btn-flat squid-text" ng-click="setCurrentPage('accueil')"><i class="material-icons left">chevron_left</i>Accueil</a>
@@ -8,27 +8,24 @@
         <div class="col s12 xl8 offset-xl2">
             <div class="card z-depth-3">
                 <div class="card-content no-padding-bot">
-                    <span class="card-title">Modifier les paramètres</span>
+                    <span class="card-title">Informations de compte</span>
                     <div class="row no-margin-bot">
                         <form class="col s12">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="email" type="email">
+                                    <input id="email" type="email" ng-model="::account.email" placeholder="" disabled>
                                     <label for="email">Courriel</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="bank" type="text">
+                                    <input id="bank" type="text" ng-model="::account.bankAccount" placeholder="" disabled>
                                     <label for="bank">Numéro de compte de banque</label>
                                     <span id="bank-tt" class="tooltipped" data-position="top" data-tooltip="BBB-CCCCC (ex: 000-12345)">?</span>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="card-action right-align">
-                    <a class="btn waves-effect waves-light" href="#">Sauvegarder</a>
                 </div>
             </div>
         </div>

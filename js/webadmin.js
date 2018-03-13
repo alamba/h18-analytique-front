@@ -76,3 +76,28 @@ app.controller('InstructionsController', ['$scope', 'apiService', function ($sco
     );
 
 }]);
+
+//////////////////////////////////////////////////////////////////////////
+// Contrôleur pour modifier les paramètres d'un compte
+//////////////////////////////////////////////////////////////////////////
+app.controller('WebParametresController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.account = {
+        email: '',
+        domain: '',
+        bankAccount: ''
+    };
+
+    // Récupérer les données du compte
+    apiService.getAccountInfo().then(
+        function (res) {
+            $scope.account.email = res.data.email;
+            $scope.account.domain = res.data.domain;
+            $scope.account.bankAccount = res.data.bankAccount;
+        },
+        function (err) {
+            console.error(err);
+        }
+    );
+
+}]);

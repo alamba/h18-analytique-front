@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="WebParametresController">
     <div class="row">
         <div class="col s12 xl8 offset-xl2">
             <div class="card z-depth-3">
@@ -8,29 +8,26 @@
                         <form class="col s12">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="email" type="email">
+                                    <input id="email" type="email" ng-model="::account.email" placeholder="" disabled>
                                     <label for="email">Courriel</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="domain" type="url">
+                                    <input id="domain" type="url" ng-model="::account.domain" placeholder="" disabled>
                                     <label for="domain">Domaine de site web</label>
                                     <span id="domain-tt" class="tooltipped" data-position="top" data-tooltip="https://votre.site.web">?</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="bank" type="text">
+                                    <input id="bank" type="text" ng-model="::account.bankAccount" placeholder="" disabled>
                                     <label for="bank">Numéro de compte de banque</label>
                                     <span id="bank-tt" class="tooltipped" data-position="top" data-tooltip="BBB-CCCCC (ex: 000-12345)">?</span>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="card-action right-align">
-                    <a class="btn waves-effect waves-light" href="#">Sauvegarder</a>
                 </div>
             </div>
         </div>

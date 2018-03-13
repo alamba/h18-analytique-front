@@ -572,6 +572,29 @@ app.controller('ProfilModifyController', ['$scope', 'apiService', function ($sco
 }]);
 
 //////////////////////////////////////////////////////////////////////////
+// Contrôleur pour modifier les paramètres d'un compte
+//////////////////////////////////////////////////////////////////////////
+app.controller('PubParametresController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.account = {
+        email: '',
+        bankAccount: ''
+    };
+
+    // Récupérer les données du compte
+    apiService.getAccountInfo().then(
+        function (res) {
+            $scope.account.email = res.data.email;
+            $scope.account.bankAccount = res.data.bankAccount;
+        },
+        function (err) {
+            console.error(err);
+        }
+    );
+
+}]);
+
+//////////////////////////////////////////////////////////////////////////
 // UTILITIES
 //////////////////////////////////////////////////////////////////////////
 function getObjectTemplateForProfil() {
