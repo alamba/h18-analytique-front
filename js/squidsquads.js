@@ -12,7 +12,12 @@ var app = angular.module('squidApp', ['ngAnimate', 'LocalStorageModule']);
 //////////////////////////////////////////////////////////////////////////
 app.constant('SERVER_URL', 'https://squidsquads-backend-dev.herokuapp.com')
     .constant('AUTH_KEY', 'authorizationSquidSquads')
-    .constant('ADMIN_TYPE', {WEB: 'WEB', PUB: 'PUB'});
+    .constant('ADMIN_TYPE', {WEB: 'WEB', PUB: 'PUB'})
+    .constant('BANNER_SIZES', {
+        HOR: {width: 728, height: 90},
+        VER: {width: 120, height: 600},
+        MOB: {width: 320, height: 100}
+    });
 
 //////////////////////////////////////////////////////////////////////////
 // Configuration
