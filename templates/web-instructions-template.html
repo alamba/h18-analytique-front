@@ -53,6 +53,18 @@
 &lt;img id="squidsquads-img-mob" src="" alt=""/&gt;
 </pre>
                     </div>
+                    <div class="section">
+                        <h5 class="light">Instructions additionnelles si vous utilisez AngularJS</h5>
+                        <blockquote>
+                            Par défaut, AngularJS bloque l'envoi de cookies. Voici ce qu'il faut ajouter à votre
+                            configuration pour qu'il les envoie.
+                        </blockquote>
+<pre class="instructions">
+app.config(function ($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+});
+</pre>
+                    </div>
                 </div>
             </div>
         </div>
