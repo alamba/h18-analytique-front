@@ -175,8 +175,15 @@ app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', 'BANNE
     // Récupérer les profils de l'utilisateur
     apiService.getProfilList().then(
         function (res) {
+            if (!res.data || !res.data.profiles || !res.data.profiles.length) {
+                swal({text: 'Vous devez d\'abord créer un profil utilisateur', icon: 'warning'})
+                    .then(() => {
+                        $scope.$parent.setCurrentPage('profil-create');
+                        $scope.$parent.$apply();
+                    });
+            }
+
             $scope.profilList = res.data.profiles;
-            // TODO Rajouter BL lorsque l'utilisateur n'a pas encore de profils
         },
         function (err) {
             // Do nothing
@@ -354,8 +361,15 @@ app.controller('CampagneModifyController', ['$scope', '$q', 'apiService', 'BANNE
         // Récupérer les profils de l'utilisateur
         apiService.getProfilList().then(
             function (res) {
+                if (!res.data || !res.data.profiles || !res.data.profiles.length) {
+                    swal({text: 'Vous devez d\'abord créer un profil utilisateur.', icon: 'warning'})
+                        .then(() => {
+                            $scope.$parent.setCurrentPage('profil-create');
+                            $scope.$parent.$apply();
+                        });
+                }
+
                 $scope.profilList = res.data.profiles;
-                // TODO Rajouter BL lorsque l'utilisateur n'a pas encore de profils
             },
             function (err) {
                 // Do nothing
