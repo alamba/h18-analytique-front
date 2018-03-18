@@ -100,7 +100,9 @@ function prepMaterializeCss() {
     $('.datepicker').pickadate();
 
     // Adjust active labels for form inputs
-    window.Materialize.updateTextFields();
+    if (window.Materialize && window.Materialize.updateTextFields) {
+        window.Materialize.updateTextFields();
+    }
 }
 
 function readURL(input, img) {
