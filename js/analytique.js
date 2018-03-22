@@ -158,7 +158,8 @@ documentReady(function () {
                 img.src = response.src;
                 img.alt = response.alt;
                 img.onclick = function () {
-                    window.location.href = response.redirectUrl;
+                    window.location.href = SQUIDSQUADS_SERVER + '/banner/redirect?visitID=' + encodeURI(response.visitID)
+                        + '&redirectUrl=' + encodeURI(response.redirectUrl);
                 };
             }
         };
