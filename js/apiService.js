@@ -149,6 +149,15 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         return postAPI('/account/password', data);
     };
 
+    // Redevances //
+    let _getRedevances = function () {
+        return getAPI('/payment', true);
+    };
+
+    let _executePayment = function () {
+        return postAPI('/payment', {});
+    };
+
     // Campagnes //
     let _createCampagne = function (data) {
         return postAPI('/campagne', data);
@@ -244,6 +253,9 @@ app.factory('apiService', ['$http', '$q', 'localStorageService', 'SERVER_URL', f
         getAccountBanners: _getAccountBanners,
         getAccountInfo: _getAccountInfo,
         resetPassword: _resetAccountPassword,
+        // Redevances //
+        getRedevances: _getRedevances,
+        executePayment: _executePayment,
         // Campagnes //
         createCampagne: _createCampagne,
         deleteCampagne: _deleteCampagne,

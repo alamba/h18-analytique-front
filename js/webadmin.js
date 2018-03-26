@@ -55,6 +55,50 @@ app.controller('WebAdminController', ['$scope', 'apiService', 'authService', fun
 
 }]);
 
+app.controller('RedevancesController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.totalAmount = '0 $';
+    $scope.fromClicks = '0 $';
+    $scope.fromTargetedClicks = '0 $';
+    $scope.fromViews = '0 $';
+    $scope.fromTargetedViews = '0 $';
+
+    let updateRedevances = function () {
+        // Récupérer les montants des redevances
+        apiService.getRedevances().then(
+            function (res) {
+                $scope.totalAmount = formatMoney(res.data.totalAmount);
+                $scope.fromClicks = formatMoney(res.data.fromClicks);
+                $scope.fromTargetedClicks = formatMoney(res.data.fromTargetedClicks);
+                $scope.fromViews = formatMoney(res.data.fromViews);
+                $scope.fromTargetedViews = formatMoney(res.data.fromTargetedViews);
+            },
+            function (err) {
+                // Do nothing
+            }
+        );
+    };
+
+    let formatMoney = function (money) {
+        money = money.toFixed(2).replace(".", ",");
+        return money + ' $';
+    };
+
+    updateRedevances();
+
+    $scope.reclamer = function () {
+        apiService.executePayment().then(
+            function (res) {
+                swal({text: res.data.message, icon: 'success'}).then(() => updateRedevances());
+            },
+            function (err) {
+                swal({text: err.data.message, icon: 'error'});
+            }
+        );
+    };
+
+}]);
+
 app.controller('InstructionsController', ['$scope', 'apiService', function ($scope, apiService) {
 
     $scope.userId = '';
