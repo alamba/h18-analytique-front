@@ -3,9 +3,10 @@
  *
  * Ce fichier a pour but de collecter des statistiques de base sur les visiteurs de ce site.
  */
-document.addEventListener('DOMContentLoaded', function (event) {
 
-    const SQUIDSQUADS_SERVER = "https://squidsquads-backend-dev.herokuapp.com";
+documentReady(function () {
+
+    const SQUIDSQUADS_SERVER = 'https://squidsquads-backend-dev.herokuapp.com';
 
     // Start sequence
     initAnalytics();
@@ -101,6 +102,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
         // If no user ID, no publicity
         if (!userId) return;
 
+        // Bind unload event following analytics
+        if (window.addEventListener) {
+            window.addEventListener('unload', function (event) {
+                leaveVisit(userId);
+            }, false);
+        }
+
         // Horizontal banner
         handleBanner('hor');
 
@@ -110,6 +118,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
         // Mobile banner
         handleBanner('mob');
     }
+
+    function leaveVisit(userId) {
+
+        if (!navigator.sendBeacon) return;
+
+        navigator.sendBeacon(SQUIDSQUADS_SERVER + '/visit/leave?userid=' + userId);
+    }
+
 
     function handleBanner(orientation) {
 
@@ -142,7 +158,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
                 img.src = response.src;
                 img.alt = response.alt;
                 img.onclick = function () {
-                    window.location.href = response.redirectUrl;
+                    window.location.href = SQUIDSQUADS_SERVER + '/banner/redirect?visitID=' + encodeURI(response.visitID)
+                        + '&redirectUrl=' + encodeURI(response.redirectUrl);
                 };
             }
         };
@@ -225,3 +242,30 @@ document.addEventListener('DOMContentLoaded', function (event) {
         return hex.toUpperCase();
     }
 });
+
+function documentReady(callback) {
+    // Document already rendered
+    if (document.readyState !== 'loading') {
+        callback();
+    }
+    // Modern browsers
+    else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+            callback();
+        }, false);
+    }
+    // IE <= 8
+    else if (document.attachEvent) {
+        document.attachEvent('onreadystatechange', function () {
+            if (document.readyState === 'complete') {
+                document.detachEvent('onreadystatechange', arguments.callee);
+                callback();
+            }
+        });
+    }
+    // Fallback
+    else {
+        window.attachEvent('onload', callback);
+    }
+}

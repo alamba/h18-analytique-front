@@ -1,13 +1,13 @@
-<div>
+<div ng-controller="RedevancesController">
     <div class="row">
         <div class="col s12 m6 offset-m3">
             <div class="card z-depth-3">
                 <div class="card-content no-padding-bot">
                     <span class="card-title">Redevances totales</span>
-                    <h3 class="light">4312,15 $</h3>
+                    <h3 class="light">{{totalAmount}}</h3>
                 </div>
                 <div class="card-action right-align">
-                    <a class="btn waves-effect waves-light" href="#">Réclamer</a>
+                    <a class="btn waves-effect waves-light" href="#" ng-click="reclamer()">Réclamer</a>
                 </div>
             </div>
         </div>
@@ -21,19 +21,19 @@
                         <tbody>
                         <tr>
                             <td>Publicités vues</td>
-                            <td class="right-align">450,80 $</td>
+                            <td class="right-align">{{fromViews}}</td>
                         </tr>
                         <tr>
                             <td>Publicités cliquées</td>
-                            <td class="right-align">630,15 $</td>
+                            <td class="right-align">{{fromClicks}}</td>
                         </tr>
                         <tr>
                             <td>Publicités vues (ciblées)</td>
-                            <td class="right-align">1330,30 $</td>
+                            <td class="right-align">{{fromTargetedViews}}</td>
                         </tr>
                         <tr>
                             <td>Publicités cliquées (ciblées)</td>
-                            <td class="right-align">1900,90 $</td>
+                            <td class="right-align">{{fromTargetedClicks}}</td>
                         </tr>
                         </tbody>
                     </table>

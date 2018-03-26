@@ -166,7 +166,7 @@ app.controller('CampagnesController', ['$scope', 'apiService', function ($scope,
 //////////////////////////////////////////////////////////////////////////
 // Contrôleur pour créer une nouvelle campagne
 //////////////////////////////////////////////////////////////////////////
-app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', function ($scope, $q, apiService) {
+app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', 'BANNER_SIZES', function ($scope, $q, apiService, BANNER_SIZES) {
 
     $scope.profilList = [];
     $scope.campagne = getObjetTemplateForCampagne();
@@ -175,8 +175,15 @@ app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', functi
     // Récupérer les profils de l'utilisateur
     apiService.getProfilList().then(
         function (res) {
+            if (!res.data || !res.data.profiles || !res.data.profiles.length) {
+                swal({text: 'Vous devez d\'abord créer un profil utilisateur', icon: 'warning'})
+                    .then(() => {
+                        $scope.$parent.setCurrentPage('profil-create');
+                        $scope.$parent.$apply();
+                    });
+            }
+
             $scope.profilList = res.data.profiles;
-            // TODO Rajouter BL lorsque l'utilisateur n'a pas encore de profils
         },
         function (err) {
             // Do nothing
@@ -191,43 +198,46 @@ app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', functi
             return;
         }
 
-        // Afficher le loading pendant la tentative de création
-        $('#create-campagne-loading').css('display', 'flex');
+        // Vérifier que les tailles sont valides
+        verifySizes(BANNER_SIZES, function () {
+            // Afficher le loading pendant la tentative de création
+            $('#create-campagne-loading').css('display', 'flex');
 
-        let imgurPromises = [];
+            let imgurPromises = [];
 
-        // Ne pas uploader une image si elle a déjà été uploadée
-        if (!$scope.campagne.imgHorizontal) imgurPromises.push(apiService.uploadToImgur($('#horizontal-file')[0]));
-        if (!$scope.campagne.imgVertical) imgurPromises.push(apiService.uploadToImgur($('#vertical-file')[0]));
-        if (!$scope.campagne.imgMobile) imgurPromises.push(apiService.uploadToImgur($('#mobile-file')[0]));
+            // Ne pas uploader une image si elle a déjà été uploadée
+            if (!$scope.campagne.imgHorizontal) imgurPromises.push(apiService.uploadToImgur($('#horizontal-file')[0]));
+            if (!$scope.campagne.imgVertical) imgurPromises.push(apiService.uploadToImgur($('#vertical-file')[0]));
+            if (!$scope.campagne.imgMobile) imgurPromises.push(apiService.uploadToImgur($('#mobile-file')[0]));
 
-        // Uploader les images sur imgur
-        $q.all(imgurPromises).then((data) => {
+            // Uploader les images sur imgur
+            $q.all(imgurPromises).then((data) => {
 
-            // Mettre à jour les liens des images pour la campagne
-            let index = 0;
-            if (!$scope.campagne.imgHorizontal) $scope.campagne.imgHorizontal = data[index++].data.link;
-            if (!$scope.campagne.imgVertical) $scope.campagne.imgVertical = data[index++].data.link;
-            if (!$scope.campagne.imgMobile) $scope.campagne.imgMobile = data[index].data.link;
+                // Mettre à jour les liens des images pour la campagne
+                let index = 0;
+                if (!$scope.campagne.imgHorizontal) $scope.campagne.imgHorizontal = data[index++].data.link;
+                if (!$scope.campagne.imgVertical) $scope.campagne.imgVertical = data[index++].data.link;
+                if (!$scope.campagne.imgMobile) $scope.campagne.imgMobile = data[index].data.link;
 
-            // Aller chercher les ID des profils manuellement
-            $scope.campagne.profileIds = $('#profildrop').val().map(id => parseInt(id));
+                // Aller chercher les ID des profils manuellement
+                $scope.campagne.profileIds = $('#profildrop').val().map(id => parseInt(id));
 
-            // Créer la campagne et voir si tous les champs sont valides
-            apiService.createCampagne($scope.campagne).then(
-                function (res) {
-                    $('#create-campagne-loading').css('display', 'none');
-                    swal({text: res.data.message, icon: 'success'})
-                        .then(() => {
-                            $scope.$parent.setCurrentPage('campagnes');
-                            $scope.$parent.$apply();
-                        });
-                },
-                function (err) {
-                    $('#create-campagne-loading').css('display', 'none');
-                    swal({text: err.data.message, icon: 'error'});
-                }
-            );
+                // Créer la campagne et voir si tous les champs sont valides
+                apiService.createCampagne($scope.campagne).then(
+                    function (res) {
+                        $('#create-campagne-loading').css('display', 'none');
+                        swal({text: res.data.message, icon: 'success'})
+                            .then(() => {
+                                $scope.$parent.setCurrentPage('campagnes');
+                                $scope.$parent.$apply();
+                            });
+                    },
+                    function (err) {
+                        $('#create-campagne-loading').css('display', 'none');
+                        swal({text: err.data.message, icon: 'error'});
+                    }
+                );
+            });
         });
 
     };
@@ -256,7 +266,7 @@ app.controller('CampagneCreateController', ['$scope', '$q', 'apiService', functi
 //////////////////////////////////////////////////////////////////////////
 // Contrôleur pour modifier une campagne
 //////////////////////////////////////////////////////////////////////////
-app.controller('CampagneModifyController', ['$scope', '$q', 'apiService', function ($scope, $q, apiService) {
+app.controller('CampagneModifyController', ['$scope', '$q', 'apiService', 'BANNER_SIZES', function ($scope, $q, apiService, BANNER_SIZES) {
 
     $scope.profilList = [];
     $scope.campagne = getObjetTemplateForCampagne();
@@ -264,51 +274,54 @@ app.controller('CampagneModifyController', ['$scope', '$q', 'apiService', functi
 
     $scope.modify = function () {
 
-        // Afficher le loading pendant la tentative de création
-        $('#modify-campagne-loading').css('display', 'flex');
+        // Vérifier que les tailles sont valides
+        verifySizes(BANNER_SIZES, function () {
+            // Afficher le loading pendant la tentative de création
+            $('#modify-campagne-loading').css('display', 'flex');
 
-        let imgurPromises = [];
+            let imgurPromises = [];
 
-        // Ne pas uploader une image si elle a déjà été uploadée
-        if ($scope.imgLocal.hor) imgurPromises.push(apiService.uploadToImgur($('#horizontal-file')[0]));
-        if ($scope.imgLocal.ver) imgurPromises.push(apiService.uploadToImgur($('#vertical-file')[0]));
-        if ($scope.imgLocal.mob) imgurPromises.push(apiService.uploadToImgur($('#mobile-file')[0]));
+            // Ne pas uploader une image si elle a déjà été uploadée
+            if ($scope.imgLocal.hor) imgurPromises.push(apiService.uploadToImgur($('#horizontal-file')[0]));
+            if ($scope.imgLocal.ver) imgurPromises.push(apiService.uploadToImgur($('#vertical-file')[0]));
+            if ($scope.imgLocal.mob) imgurPromises.push(apiService.uploadToImgur($('#mobile-file')[0]));
 
-        // Uploader les images sur imgur
-        $q.all(imgurPromises).then((data) => {
+            // Uploader les images sur imgur
+            $q.all(imgurPromises).then((data) => {
 
-            // Mettre à jour les liens des images pour la campagne
-            let index = 0;
-            if ($scope.imgLocal.hor) {
-                $scope.imgLocal.hor = '';
-                $scope.campagne.imgHorizontal = data[index++].data.link;
-            }
-            if ($scope.imgLocal.ver) {
-                $scope.imgLocal.ver = '';
-                $scope.campagne.imgVertical = data[index++].data.link;
-            }
-            if ($scope.imgLocal.mob) {
-                $scope.imgLocal.mob = '';
-                $scope.campagne.imgMobile = data[index].data.link;
-            }
-
-            // Aller chercher les ID des profils manuellement
-            $scope.campagne.profileIds = $('#profildrop').val().map(id => parseInt(id));
-
-            apiService.modifyCampagne($scope.campagne.id, $scope.campagne).then(
-                function (res) {
-                    $('#modify-campagne-loading').css('display', 'none');
-                    swal({text: res.data.message, icon: 'success'})
-                        .then(() => {
-                            $scope.$parent.setCurrentPage('campagnes');
-                            $scope.$parent.$apply();
-                        });
-                },
-                function (err) {
-                    $('#modify-campagne-loading').css('display', 'none');
-                    swal({text: err.data.message, icon: 'error'});
+                // Mettre à jour les liens des images pour la campagne
+                let index = 0;
+                if ($scope.imgLocal.hor) {
+                    $scope.imgLocal.hor = '';
+                    $scope.campagne.imgHorizontal = data[index++].data.link;
                 }
-            );
+                if ($scope.imgLocal.ver) {
+                    $scope.imgLocal.ver = '';
+                    $scope.campagne.imgVertical = data[index++].data.link;
+                }
+                if ($scope.imgLocal.mob) {
+                    $scope.imgLocal.mob = '';
+                    $scope.campagne.imgMobile = data[index].data.link;
+                }
+
+                // Aller chercher les ID des profils manuellement
+                $scope.campagne.profileIds = $('#profildrop').val().map(id => parseInt(id));
+
+                apiService.modifyCampagne($scope.campagne.id, $scope.campagne).then(
+                    function (res) {
+                        $('#modify-campagne-loading').css('display', 'none');
+                        swal({text: res.data.message, icon: 'success'})
+                            .then(() => {
+                                $scope.$parent.setCurrentPage('campagnes');
+                                $scope.$parent.$apply();
+                            });
+                    },
+                    function (err) {
+                        $('#modify-campagne-loading').css('display', 'none');
+                        swal({text: err.data.message, icon: 'error'});
+                    }
+                );
+            });
         });
     };
 
@@ -348,8 +361,15 @@ app.controller('CampagneModifyController', ['$scope', '$q', 'apiService', functi
         // Récupérer les profils de l'utilisateur
         apiService.getProfilList().then(
             function (res) {
+                if (!res.data || !res.data.profiles || !res.data.profiles.length) {
+                    swal({text: 'Vous devez d\'abord créer un profil utilisateur.', icon: 'warning'})
+                        .then(() => {
+                            $scope.$parent.setCurrentPage('profil-create');
+                            $scope.$parent.$apply();
+                        });
+                }
+
                 $scope.profilList = res.data.profiles;
-                // TODO Rajouter BL lorsque l'utilisateur n'a pas encore de profils
             },
             function (err) {
                 // Do nothing
@@ -572,6 +592,29 @@ app.controller('ProfilModifyController', ['$scope', 'apiService', function ($sco
 }]);
 
 //////////////////////////////////////////////////////////////////////////
+// Contrôleur pour modifier les paramètres d'un compte
+//////////////////////////////////////////////////////////////////////////
+app.controller('PubParametresController', ['$scope', 'apiService', function ($scope, apiService) {
+
+    $scope.account = {
+        email: '',
+        bankAccount: ''
+    };
+
+    // Récupérer les données du compte
+    apiService.getAccountInfo().then(
+        function (res) {
+            $scope.account.email = res.data.email;
+            $scope.account.bankAccount = res.data.bankAccount;
+        },
+        function (err) {
+            console.error(err);
+        }
+    );
+
+}]);
+
+//////////////////////////////////////////////////////////////////////////
 // UTILITIES
 //////////////////////////////////////////////////////////////////////////
 function getObjectTemplateForProfil() {
@@ -599,4 +642,47 @@ function getObjetTemplateForCampagne() {
         imgVertical: '',
         imgMobile: '',
     };
+}
+
+function verifyWidthAndHeight(input, sizes, cb) {
+
+    let win = window.URL || window.webkitURL;
+    let img = new Image();
+
+    img.onload = function () {
+        cb(this.width === sizes.width && this.height === sizes.height);
+    };
+    img.src = win.createObjectURL(input.files[0]);
+}
+
+function verifySizes(BANNER_SIZES, cb) {
+
+    verifyWidthAndHeight($('#horizontal-file')[0], BANNER_SIZES.HOR, function (valid) {
+        if (!valid) {
+            swal({
+                text: 'L\'image horizontale doit être de taille ' + BANNER_SIZES.HOR.width + 'x' + BANNER_SIZES.HOR.height + ' pixels',
+                icon: 'error'
+            });
+        } else {
+            verifyWidthAndHeight($('#vertical-file')[0], BANNER_SIZES.VER, function (valid) {
+                if (!valid) {
+                    swal({
+                        text: 'L\'image verticale doit être de taille ' + BANNER_SIZES.VER.width + 'x' + BANNER_SIZES.VER.height + ' pixels',
+                        icon: 'error'
+                    });
+                } else {
+                    verifyWidthAndHeight($('#mobile-file')[0], BANNER_SIZES.MOB, function (valid) {
+                        if (!valid) {
+                            swal({
+                                text: 'L\'image mobile doit être de taille ' + BANNER_SIZES.MOB.width + 'x' + BANNER_SIZES.MOB.height + ' pixels',
+                                icon: 'error'
+                            });
+                        } else {
+                            cb();
+                        }
+                    });
+                }
+            });
+        }
+    });
 }
