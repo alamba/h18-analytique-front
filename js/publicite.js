@@ -637,7 +637,6 @@ function getObjetTemplateForCampagne() {
         profileIds: [],
         startDate: '',
         endDate: '',
-        budget: 0,
         imgHorizontal: '',
         imgVertical: '',
         imgMobile: '',
