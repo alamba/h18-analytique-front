@@ -637,7 +637,6 @@ function getObjetTemplateForCampagne() {
         profileIds: [],
         startDate: '',
         endDate: '',
-        budget: 0,
         imgHorizontal: '',
         imgVertical: '',
         imgMobile: '',
@@ -645,6 +644,8 @@ function getObjetTemplateForCampagne() {
 }
 
 function verifyWidthAndHeight(input, sizes, cb) {
+
+    if (!input || !input.files || !input.files[0]) return cb(true);
 
     let win = window.URL || window.webkitURL;
     let img = new Image();
